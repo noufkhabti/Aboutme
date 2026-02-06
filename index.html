@@ -49,7 +49,7 @@ body{
   gap:18px;
 }
 
-/* ===== الهيدر ===== */
+/* ===== الهيدر العام ===== */
 .topHeader{
   text-align:center;
   background:var(--card);
@@ -82,6 +82,7 @@ body{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:18px;
+  align-items:stretch;
 }
 
 .card{
@@ -92,9 +93,10 @@ body{
   display:flex;
   flex-direction:column;
   overflow:hidden;
+  min-height:520px;
 }
 
-/* ===== الهوية المهنية ===== */
+/* ===== الهوية المهنية (يمين) ===== */
 .identityWrap{
   padding:18px;
   display:flex;
@@ -118,48 +120,77 @@ body{
   text-align:center;
 }
 
-/* ===== السلايدر ===== */
+.foot{
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);
+  padding:12px;
+  border-top:1px solid var(--border);
+  background: rgba(255,255,255,.40);
+}
+
+/* ===== السلايدر (يسار) ===== */
 .mediaWrap{
   padding:16px;
   display:flex;
   flex-direction:column;
   gap:12px;
+  height:100%;
 }
 
-/* ⭐ مستطيل أفقي موحّد */
 .stage{
   position:relative;
-  width:100%;
-  aspect-ratio:16 / 9;   /* ⭐ بالعرض */
+  flex:1;
   border-radius:18px;
   border:1px solid var(--border);
-  background:linear-gradient(135deg,#f8fafc,#ffffff);
+  background:#fff; /* مهم لإزالة السواد */
   overflow:hidden;
 }
 
-/* عنوان السلايد */
-.caption{
+/* العنوان + العدّاد */
+.topBar{
   position:absolute;
   top:12px;
   right:12px;
   left:12px;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
   z-index:6;
+  pointer-events:none;
 }
-.caption .pill{
-  display:inline-block;
-  background:rgba(255,255,255,.85);
+
+.pill{
+  background:rgba(255,255,255,.86);
   border:1px solid var(--border);
   border-radius:999px;
   padding:8px 12px;
   font-size:12px;
-  font-weight:900;
+  font-weight:950;
+  box-shadow: 0 10px 18px rgba(0,0,0,.08);
+  max-width: 70%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+
+  /* حركة ناعمة */
   opacity:0;
-  transform:translateY(-8px);
-  transition:.35s ease;
+  transform: translateY(-8px);
+  transition: opacity .35s ease, transform .35s ease;
 }
-.caption .pill.show{
+.pill.show{
   opacity:1;
-  transform:translateY(0);
+  transform: translateY(0);
+}
+
+.counter{
+  background:rgba(255,255,255,.86);
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:8px 10px;
+  font-size:12px;
+  color: var(--muted);
+  box-shadow: 0 10px 18px rgba(0,0,0,.08);
 }
 
 /* Skeleton */
@@ -167,24 +198,29 @@ body{
   position:absolute;
   inset:0;
   padding:12px;
-  display:none;
   z-index:5;
+  display:none;
 }
-.stage.loading .skeleton{display:block}
+.stage.loading .skeleton{ display:block; }
 
 .skeletonBox{
   width:100%;
   height:100%;
   border-radius:14px;
-  background:linear-gradient(90deg,#eee,#fff,#eee);
-  background-size:200% 100%;
-  animation:shimmer 1.2s infinite linear;
+  border:1px solid rgba(17,24,39,.08);
+  background: linear-gradient(90deg,
+    rgba(240,240,245,.75) 0%,
+    rgba(255,255,255,.95) 45%,
+    rgba(240,240,245,.75) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite linear;
 }
 @keyframes shimmer{
-  from{background-position:200%}
-  to{background-position:-200%}
+  0%{ background-position: 200% 0; }
+  100%{ background-position: -200% 0; }
 }
 
+/* المحتوى */
 .viewer{
   position:absolute;
   inset:0;
@@ -193,62 +229,74 @@ body{
   place-items:center;
 }
 
-/* ⭐ توحيد العرض بدون قص */
-.viewer iframe,
+.viewer iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  border-radius:14px;
+  background:#fff !important;
+}
+
+/* لو استخدمتي صور مباشرة أو فيديو mp4 */
 .viewer img,
 .viewer video{
   width:100%;
   height:100%;
   border:0;
   border-radius:14px;
-  object-fit:contain;   /* ⭐ يحافظ على التناسق */
+  object-fit:cover;   /* شكل أجمل غالبًا */
   background:#fff;
 }
 
-/* نقاط */
+/* dots */
 .dots{
   display:flex;
   justify-content:center;
   gap:8px;
+  flex-wrap:wrap;
 }
+
 .dot{
-  width:10px;
-  height:10px;
+  width:10px;height:10px;
   border-radius:50%;
   border:1px solid rgba(0,0,0,.2);
+  background: rgba(255,255,255,.9);
   cursor:pointer;
+  transition: .12s ease;
 }
 .dot.active{
   width:26px;
   border-radius:999px;
   background:linear-gradient(135deg,var(--p1),var(--p2));
+  border-color: rgba(124,92,255,.35);
 }
 
-/* أزرار */
+/* controls */
 .controls{
   display:flex;
   gap:10px;
 }
 .controls button{
   flex:1;
-  padding:10px;
+  padding:10px 12px;
   border-radius:999px;
   border:1px solid var(--border);
   background:#fff;
   font-weight:900;
   cursor:pointer;
 }
+.controls button:active{ transform: scale(.98); }
 
-.foot{
+.msg{
   text-align:center;
-  font-size:12px;
-  color:var(--muted);
-  padding:12px;
-  border-top:1px solid var(--border);
+  color: var(--muted);
+  font-weight:900;
+  padding: 10px 0;
 }
 
 @media(max-width:900px){
-  .grid{grid-template-columns:1fr}
+  .grid{ grid-template-columns: 1fr; }
+  .card{ min-height:520px; }
 }
 </style>
 </head>
@@ -264,25 +312,27 @@ body{
 
 <main class="grid">
 
-  <!-- الهوية المهنية -->
+  <!-- ✅ يمين: الهوية المهنية -->
   <section class="card">
     <div class="identityWrap">
       <h2>الهوية المهنية</h2>
       <div class="vision">
-        تتشكل رؤيتي من فلسفة تربوية تُعلي قيمة الفهم والمعنى، وتدعمها ممارسات تدريسية
-        تُحسن التعلم وتُفعل الحوار والتفكير الناقد، وتستثمر التغذية الراجعة.
+        تتشكل رؤيتي من فلسفة تربوية تُعلي قيمة الفهم والمعنى، وتدعمها ممارسات تدريسية تُحسن التعلم
+        وتُفعل الحوار والتفكير الناقد، وتستثمر التغذية الراجعة والبيانات لتجويد المخرجات؛ بما يصنع
+        طالبة واثقة، مسؤولة، وقادرة على اتخاذ قرارها المعرفي.
       </div>
     </div>
     <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
   </section>
 
-  <!-- السلايدر -->
+  <!-- ✅ يسار: السلايدر -->
   <section class="card">
     <div class="mediaWrap">
 
       <div class="stage loading" id="stage">
-        <div class="caption">
+        <div class="topBar">
           <div class="pill" id="caption">—</div>
+          <div class="counter" id="counter">0/0</div>
         </div>
 
         <div class="skeleton">
@@ -295,10 +345,12 @@ body{
       <div class="dots" id="dots"></div>
 
       <div class="controls">
-        <button onclick="prev()">السابق</button>
-        <button onclick="toggle()">إيقاف</button>
-        <button onclick="next()">التالي</button>
+        <button id="prevBtn">السابق</button>
+        <button id="toggleBtn">إيقاف</button>
+        <button id="nextBtn">التالي</button>
       </div>
+
+      <div class="msg" id="statusMsg">جاري تحميل الوسائط…</div>
     </div>
 
     <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
@@ -308,57 +360,208 @@ body{
 </div>
 
 <script>
-const MEDIA = [
-  {url:"https://drive.google.com/file/d/1giICP1ZHOiY4uR083VfTR_COSJUKYf2d/preview",title:"إنجاز ١"},
-  {url:"https://drive.google.com/file/d/1-viMbM-dVghJf8DQaZ1MJKUQvQjdoP4K/preview",title:"إنجاز ٢"},
-  {url:"https://drive.google.com/file/d/1YSwB---Cq6Nycsk0pAGNZD7CWMqyvbfJ/preview",title:"إنجاز ٣"}
-];
+/* =========================
+   رابط شيت الوسائط (CSV)
+   الأعمدة: type,url,title
+   type: iframe | image | video
+========================= */
+const MEDIA_CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEHayG4LZPyitS9dWgRweARkU4gWhGc0vxUFjZbOan32ZG6B9zSYpAKd02bE2nkysvXoIC3EH-iN4O/pub?output=csv";
 
-let i=0, play=true, timer;
-const stage=document.getElementById("stage");
-const viewer=document.getElementById("viewer");
-const dots=document.getElementById("dots");
-const caption=document.getElementById("caption");
+const INTERVAL_MS = 7000;
 
-MEDIA.forEach((_,x)=>{
-  const d=document.createElement("div");
-  d.className="dot";
-  d.onclick=()=>go(x,true);
-  dots.appendChild(d);
-});
+/* ===== عناصر الصفحة ===== */
+let MEDIA = [];
+let idx = 0;
+let timer = null;
+let playing = true;
 
-function setCaption(t){
-  caption.classList.remove("show");
-  caption.textContent=t;
-  requestAnimationFrame(()=>caption.classList.add("show"));
+const stage   = document.getElementById("stage");
+const viewer  = document.getElementById("viewer");
+const dotsEl  = document.getElementById("dots");
+const caption = document.getElementById("caption");
+const counter = document.getElementById("counter");
+const statusMsg = document.getElementById("statusMsg");
+
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const toggleBtn = document.getElementById("toggleBtn");
+
+/* ===== CSV parser يدعم الفواصل داخل الاقتباس ===== */
+function splitCSVLine(line){
+  const res = [];
+  let cur = "", inQ = false;
+  for(let i=0;i<line.length;i++){
+    const ch = line[i];
+    if(ch === '"'){
+      if(inQ && line[i+1] === '"'){ cur += '"'; i++; }
+      else inQ = !inQ;
+    } else if(ch === ',' && !inQ){
+      res.push(cur); cur = "";
+    } else cur += ch;
+  }
+  res.push(cur);
+  return res.map(s => s.trim());
 }
 
-function go(x,manual=false){
-  i=(x+MEDIA.length)%MEDIA.length;
-  [...dots.children].forEach((d,j)=>d.classList.toggle("active",j===i));
-  setCaption(MEDIA[i].title);
-  stage.classList.add("loading");
+function parseCSV(text){
+  const lines = text.trim().split(/\r?\n/).filter(l => l.trim() !== "");
+  if(lines.length < 2) return {header:[], rows:[]};
+  const header = splitCSVLine(lines[0]).map(h => h.toLowerCase());
+  const rows = [];
+  for(let i=1;i<lines.length;i++){
+    rows.push(splitCSVLine(lines[i]));
+  }
+  return {header, rows};
+}
 
-  viewer.innerHTML="";
-  const f=document.createElement("iframe");
-  f.src=MEDIA[i].url;
-  f.onload=()=>stage.classList.remove("loading");
-  viewer.appendChild(f);
+function col(header, name){
+  return header.indexOf(name.toLowerCase());
+}
 
+/* ===== واجهة ===== */
+function setLoading(on){
+  stage.classList.toggle("loading", !!on);
+}
+
+function setCaption(text){
+  caption.classList.remove("show");
+  caption.textContent = text || "—";
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => caption.classList.add("show"));
+  });
+}
+
+function buildDots(){
+  dotsEl.innerHTML = "";
+  MEDIA.forEach((_, i) => {
+    const d = document.createElement("div");
+    d.className = "dot";
+    d.addEventListener("click", () => goTo(i, true));
+    dotsEl.appendChild(d);
+  });
+}
+
+function updateDots(){
+  [...dotsEl.children].forEach((d, i) => d.classList.toggle("active", i === idx));
+}
+
+function updateCounter(){
+  counter.textContent = MEDIA.length ? `${idx+1}/${MEDIA.length}` : `0/0`;
+}
+
+/* ===== عرض سلايد ===== */
+function render(){
+  if(!MEDIA.length){
+    viewer.innerHTML = `<div class="msg">لا توجد وسائط في الشيت</div>`;
+    setCaption("—");
+    updateCounter();
+    dotsEl.innerHTML = "";
+    statusMsg.textContent = "لا توجد وسائط";
+    setLoading(false);
+    return;
+  }
+
+  const it = MEDIA[idx];
+  setCaption(it.title || "—");
+  updateCounter();
+  updateDots();
+
+  setLoading(true);
+  viewer.innerHTML = "";
+
+  if(it.type === "image"){
+    const img = document.createElement("img");
+    img.src = it.url;
+    img.alt = it.title || "image";
+    img.loading = "eager";
+    img.onload = () => setLoading(false);
+    img.onerror = () => { setLoading(false); statusMsg.textContent = "تعذر تحميل صورة"; };
+    viewer.appendChild(img);
+
+  } else if(it.type === "video"){
+    const v = document.createElement("video");
+    v.src = it.url;
+    v.autoplay = true;
+    v.muted = true;
+    v.loop = true;
+    v.playsInline = true;
+    v.onloadeddata = () => setLoading(false);
+    v.onerror = () => { setLoading(false); statusMsg.textContent = "تعذر تحميل فيديو"; };
+    viewer.appendChild(v);
+
+  } else {
+    // iframe (Drive preview / YouTube embed / أي رابط iframe)
+    const f = document.createElement("iframe");
+    f.src = it.url;
+    f.allow = "autoplay; encrypted-media; picture-in-picture";
+    f.referrerPolicy = "strict-origin-when-cross-origin";
+    f.onload = () => setLoading(false);
+    f.onerror = () => { setLoading(false); statusMsg.textContent = "تعذر تحميل iframe"; };
+    viewer.appendChild(f);
+  }
+
+  statusMsg.textContent = "جاهز ✅";
+}
+
+function goTo(newIdx, manual=false){
+  if(!MEDIA.length) return;
+  idx = (newIdx + MEDIA.length) % MEDIA.length;
+  render();
   if(manual) restart();
 }
 
-function next(){go(i+1,true)}
-function prev(){go(i-1,true)}
-function toggle(){play=!play}
+function next(manual=false){ goTo(idx + 1, manual); }
+function prev(manual=false){ goTo(idx - 1, manual); }
 
 function restart(){
-  clearInterval(timer);
-  timer=setInterval(()=>{if(play) next()},7000);
+  if(timer) clearInterval(timer);
+  timer = setInterval(() => { if(playing) next(false); }, INTERVAL_MS);
 }
 
-go(0,false);
-restart();
+/* ===== تحميل من الشيت ===== */
+async function loadMediaFromSheet(){
+  statusMsg.textContent = "جاري تحميل الوسائط…";
+  try{
+    const res = await fetch(MEDIA_CSV_URL, {cache:"no-store"});
+    const text = await res.text();
+    const {header, rows} = parseCSV(text);
+
+    const tI = col(header, "type");
+    const uI = col(header, "url");
+    const cI = col(header, "title");
+
+    MEDIA = rows.map(r => ({
+      type: (r[tI] || "iframe").trim().toLowerCase(),
+      url:  (r[uI] || "").trim(),
+      title:(r[cI] || "").trim(),
+    })).filter(x => x.url);
+
+    idx = 0;
+    buildDots();
+    render();
+    restart();
+  }catch(e){
+    statusMsg.textContent = "تعذر قراءة شيت الوسائط ❌";
+    viewer.innerHTML = `<div class="msg" style="color:#ef4444">تعذر قراءة شيت الوسائط (CSV)</div>`;
+    dotsEl.innerHTML = "";
+    setLoading(false);
+  }
+}
+
+/* ===== أزرار ===== */
+prevBtn.addEventListener("click", () => prev(true));
+nextBtn.addEventListener("click", () => next(true));
+toggleBtn.addEventListener("click", () => {
+  playing = !playing;
+  toggleBtn.textContent = playing ? "إيقاف" : "تشغيل";
+});
+
+/* تشغيل */
+loadMediaFromSheet();
+
+/* (اختياري) تحديث تلقائي كل دقيقة لو تغيّر الشيت */
+setInterval(loadMediaFromSheet, 60000);
 </script>
 </body>
 </html>
