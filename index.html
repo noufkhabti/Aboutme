@@ -49,7 +49,7 @@ body{
   gap:18px;
 }
 
-/* ===== الهيدر العام ===== */
+/* ===== الهيدر ===== */
 .topHeader{
   text-align:center;
   background:var(--card);
@@ -58,13 +58,11 @@ body{
   box-shadow:var(--shadow);
   padding:22px 18px;
 }
-
 .topHeader h1{
   margin:0;
   font-size:30px;
   font-weight:1000;
 }
-
 .topHeader p{
   margin-top:8px;
   font-size:14px;
@@ -72,7 +70,6 @@ body{
   line-height:1.8;
   font-weight:700;
 }
-
 .topHeader hr{
   border:0;
   border-top:1px solid rgba(17,24,39,.08);
@@ -95,10 +92,9 @@ body{
   display:flex;
   flex-direction:column;
   overflow:hidden;
-  min-height:520px;
 }
 
-/* ===== الهوية المهنية (يمين) ===== */
+/* ===== الهوية المهنية ===== */
 .identityWrap{
   padding:18px;
   display:flex;
@@ -106,14 +102,12 @@ body{
   gap:14px;
   height:100%;
 }
-
 .identityWrap h2{
   text-align:center;
   font-size:24px;
   font-weight:1000;
   margin:0;
 }
-
 .vision{
   background:rgba(255,255,255,.7);
   border:1px solid var(--border);
@@ -124,56 +118,71 @@ body{
   text-align:center;
 }
 
-.icons{
-  margin-top:auto;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-
-.iconBtn{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px;
-  border-radius:18px;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.9);
-  text-decoration:none;
-  color:var(--text);
-}
-
-.iconBubble{
-  width:44px;
-  height:44px;
-  border-radius:16px;
-  display:grid;
-  place-items:center;
-  color:#fff;
-  font-size:20px;
-}
-
-.g1{background:linear-gradient(135deg,var(--p1),var(--p5))}
-.g2{background:linear-gradient(135deg,var(--p2),var(--p1))}
-.g3{background:linear-gradient(135deg,var(--p4),#3b82f6)}
-.g4{background:linear-gradient(135deg,var(--p3),var(--p4))}
-
-/* ===== السلايدر (يسار) ===== */
+/* ===== السلايدر ===== */
 .mediaWrap{
   padding:16px;
   display:flex;
   flex-direction:column;
   gap:12px;
-  height:100%;
 }
 
+/* ⭐ مستطيل أفقي موحّد */
 .stage{
   position:relative;
-  flex:1;
+  width:100%;
+  aspect-ratio:16 / 9;   /* ⭐ بالعرض */
   border-radius:18px;
   border:1px solid var(--border);
-  background:#fff; /* مهم */
+  background:linear-gradient(135deg,#f8fafc,#ffffff);
   overflow:hidden;
+}
+
+/* عنوان السلايد */
+.caption{
+  position:absolute;
+  top:12px;
+  right:12px;
+  left:12px;
+  z-index:6;
+}
+.caption .pill{
+  display:inline-block;
+  background:rgba(255,255,255,.85);
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:8px 12px;
+  font-size:12px;
+  font-weight:900;
+  opacity:0;
+  transform:translateY(-8px);
+  transition:.35s ease;
+}
+.caption .pill.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* Skeleton */
+.skeleton{
+  position:absolute;
+  inset:0;
+  padding:12px;
+  display:none;
+  z-index:5;
+}
+.stage.loading .skeleton{display:block}
+
+.skeletonBox{
+  width:100%;
+  height:100%;
+  border-radius:14px;
+  background:linear-gradient(90deg,#eee,#fff,#eee);
+  background-size:200% 100%;
+  animation:shimmer 1.2s infinite linear;
+}
+@keyframes shimmer{
+  from{background-position:200%}
+  to{background-position:-200%}
 }
 
 .viewer{
@@ -184,28 +193,24 @@ body{
   place-items:center;
 }
 
-/* ⭐ الحل هنا */
-.viewer iframe{
-  width:100%;
-  height:100%;
-  border:0;
-  background:#fff !important;
-}
-
+/* ⭐ توحيد العرض بدون قص */
+.viewer iframe,
 .viewer img,
 .viewer video{
   width:100%;
   height:100%;
-  object-fit:cover;
+  border:0;
   border-radius:14px;
+  object-fit:contain;   /* ⭐ يحافظ على التناسق */
+  background:#fff;
 }
 
+/* نقاط */
 .dots{
   display:flex;
   justify-content:center;
   gap:8px;
 }
-
 .dot{
   width:10px;
   height:10px;
@@ -213,18 +218,17 @@ body{
   border:1px solid rgba(0,0,0,.2);
   cursor:pointer;
 }
-
 .dot.active{
   width:26px;
   border-radius:999px;
   background:linear-gradient(135deg,var(--p1),var(--p2));
 }
 
+/* أزرار */
 .controls{
   display:flex;
   gap:10px;
 }
-
 .controls button{
   flex:1;
   padding:10px;
@@ -232,6 +236,7 @@ body{
   border:1px solid var(--border);
   background:#fff;
   font-weight:900;
+  cursor:pointer;
 }
 
 .foot{
@@ -264,10 +269,9 @@ body{
     <div class="identityWrap">
       <h2>الهوية المهنية</h2>
       <div class="vision">
-        تتشكل رؤيتي من فلسفة تربوية تُعلي قيمة الفهم والمعنى، وتدعمها ممارسات تدريسية تُحسن التعلم
-        وتُفعل الحوار والتفكير الناقد، وتستثمر التغذية الراجعة والبيانات لتجويد المخرجات.
+        تتشكل رؤيتي من فلسفة تربوية تُعلي قيمة الفهم والمعنى، وتدعمها ممارسات تدريسية
+        تُحسن التعلم وتُفعل الحوار والتفكير الناقد، وتستثمر التغذية الراجعة.
       </div>
-      <div class="icons" id="icons"></div>
     </div>
     <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
   </section>
@@ -275,16 +279,28 @@ body{
   <!-- السلايدر -->
   <section class="card">
     <div class="mediaWrap">
-      <div class="stage">
+
+      <div class="stage loading" id="stage">
+        <div class="caption">
+          <div class="pill" id="caption">—</div>
+        </div>
+
+        <div class="skeleton">
+          <div class="skeletonBox"></div>
+        </div>
+
         <div class="viewer" id="viewer"></div>
       </div>
+
       <div class="dots" id="dots"></div>
+
       <div class="controls">
         <button onclick="prev()">السابق</button>
         <button onclick="toggle()">إيقاف</button>
         <button onclick="next()">التالي</button>
       </div>
     </div>
+
     <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
   </section>
 
@@ -293,38 +309,56 @@ body{
 
 <script>
 const MEDIA = [
-  "https://drive.google.com/file/d/1giICP1ZHOiY4uR083VfTR_COSJUKYf2d/preview",
-  "https://drive.google.com/file/d/1-viMbM-dVghJf8DQaZ1MJKUQvQjdoP4K/preview"
+  {url:"https://drive.google.com/file/d/1giICP1ZHOiY4uR083VfTR_COSJUKYf2d/preview",title:"إنجاز ١"},
+  {url:"https://drive.google.com/file/d/1-viMbM-dVghJf8DQaZ1MJKUQvQjdoP4K/preview",title:"إنجاز ٢"},
+  {url:"https://drive.google.com/file/d/1YSwB---Cq6Nycsk0pAGNZD7CWMqyvbfJ/preview",title:"إنجاز ٣"}
 ];
 
-let i=0,play=true,t;
-
-const v=document.getElementById("viewer");
-const d=document.getElementById("dots");
+let i=0, play=true, timer;
+const stage=document.getElementById("stage");
+const viewer=document.getElementById("viewer");
+const dots=document.getElementById("dots");
+const caption=document.getElementById("caption");
 
 MEDIA.forEach((_,x)=>{
-  const dot=document.createElement("div");
-  dot.className="dot";
-  dot.onclick=()=>go(x);
-  d.appendChild(dot);
+  const d=document.createElement("div");
+  d.className="dot";
+  d.onclick=()=>go(x,true);
+  dots.appendChild(d);
 });
 
-function go(x){
-  i=x;
-  document.querySelectorAll(".dot").forEach((e,j)=>e.classList.toggle("active",j===i));
-  v.innerHTML=`<iframe src="${MEDIA[i]}"></iframe>`;
+function setCaption(t){
+  caption.classList.remove("show");
+  caption.textContent=t;
+  requestAnimationFrame(()=>caption.classList.add("show"));
 }
 
-function next(){go((i+1)%MEDIA.length)}
-function prev(){go((i-1+MEDIA.length)%MEDIA.length)}
+function go(x,manual=false){
+  i=(x+MEDIA.length)%MEDIA.length;
+  [...dots.children].forEach((d,j)=>d.classList.toggle("active",j===i));
+  setCaption(MEDIA[i].title);
+  stage.classList.add("loading");
+
+  viewer.innerHTML="";
+  const f=document.createElement("iframe");
+  f.src=MEDIA[i].url;
+  f.onload=()=>stage.classList.remove("loading");
+  viewer.appendChild(f);
+
+  if(manual) restart();
+}
+
+function next(){go(i+1,true)}
+function prev(){go(i-1,true)}
 function toggle(){play=!play}
 
-function auto(){
-  if(play) next();
+function restart(){
+  clearInterval(timer);
+  timer=setInterval(()=>{if(play) next()},7000);
 }
-t=setInterval(auto,7000);
 
-go(0);
+go(0,false);
+restart();
 </script>
 </body>
 </html>
