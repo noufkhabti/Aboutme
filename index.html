@@ -58,11 +58,13 @@ body{
   box-shadow:var(--shadow);
   padding:22px 18px;
 }
+
 .topHeader h1{
   margin:0;
   font-size:30px;
   font-weight:1000;
 }
+
 .topHeader p{
   margin-top:8px;
   font-size:14px;
@@ -70,6 +72,7 @@ body{
   line-height:1.8;
   font-weight:700;
 }
+
 .topHeader hr{
   border:0;
   border-top:1px solid rgba(17,24,39,.08);
@@ -82,7 +85,6 @@ body{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:18px;
-  align-items:stretch;
 }
 
 .card{
@@ -104,12 +106,14 @@ body{
   gap:14px;
   height:100%;
 }
+
 .identityWrap h2{
   text-align:center;
   font-size:24px;
   font-weight:1000;
   margin:0;
 }
+
 .vision{
   background:rgba(255,255,255,.7);
   border:1px solid var(--border);
@@ -120,14 +124,39 @@ body{
   text-align:center;
 }
 
-.foot{
-  text-align:center;
-  font-size:12px;
-  color:var(--muted);
-  padding:12px;
-  border-top:1px solid var(--border);
-  background: rgba(255,255,255,.40);
+.icons{
+  margin-top:auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
 }
+
+.iconBtn{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px;
+  border-radius:18px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.9);
+  text-decoration:none;
+  color:var(--text);
+}
+
+.iconBubble{
+  width:44px;
+  height:44px;
+  border-radius:16px;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font-size:20px;
+}
+
+.g1{background:linear-gradient(135deg,var(--p1),var(--p5))}
+.g2{background:linear-gradient(135deg,var(--p2),var(--p1))}
+.g3{background:linear-gradient(135deg,var(--p4),#3b82f6)}
+.g4{background:linear-gradient(135deg,var(--p3),var(--p4))}
 
 /* ===== السلايدر (يسار) ===== */
 .mediaWrap{
@@ -143,84 +172,10 @@ body{
   flex:1;
   border-radius:18px;
   border:1px solid var(--border);
-  background:#fff; /* مهم لإزالة السواد */
+  background:#fff; /* مهم */
   overflow:hidden;
 }
 
-/* العنوان + العدّاد */
-.topBar{
-  position:absolute;
-  top:12px;
-  right:12px;
-  left:12px;
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  z-index:6;
-  pointer-events:none;
-}
-
-.pill{
-  background:rgba(255,255,255,.86);
-  border:1px solid var(--border);
-  border-radius:999px;
-  padding:8px 12px;
-  font-size:12px;
-  font-weight:950;
-  box-shadow: 0 10px 18px rgba(0,0,0,.08);
-  max-width: 70%;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-
-  /* حركة ناعمة */
-  opacity:0;
-  transform: translateY(-8px);
-  transition: opacity .35s ease, transform .35s ease;
-}
-.pill.show{
-  opacity:1;
-  transform: translateY(0);
-}
-
-.counter{
-  background:rgba(255,255,255,.86);
-  border:1px solid var(--border);
-  border-radius:999px;
-  padding:8px 10px;
-  font-size:12px;
-  color: var(--muted);
-  box-shadow: 0 10px 18px rgba(0,0,0,.08);
-}
-
-/* Skeleton */
-.skeleton{
-  position:absolute;
-  inset:0;
-  padding:12px;
-  z-index:5;
-  display:none;
-}
-.stage.loading .skeleton{ display:block; }
-
-.skeletonBox{
-  width:100%;
-  height:100%;
-  border-radius:14px;
-  border:1px solid rgba(17,24,39,.08);
-  background: linear-gradient(90deg,
-    rgba(240,240,245,.75) 0%,
-    rgba(255,255,255,.95) 45%,
-    rgba(240,240,245,.75) 100%);
-  background-size: 200% 100%;
-  animation: shimmer 1.2s infinite linear;
-}
-@keyframes shimmer{
-  0%{ background-position: 200% 0; }
-  100%{ background-position: -200% 0; }
-}
-
-/* المحتوى */
 .viewer{
   position:absolute;
   inset:0;
@@ -229,74 +184,66 @@ body{
   place-items:center;
 }
 
+/* ⭐ الحل هنا */
 .viewer iframe{
   width:100%;
   height:100%;
   border:0;
-  border-radius:14px;
   background:#fff !important;
 }
 
-/* لو استخدمتي صور مباشرة أو فيديو mp4 */
 .viewer img,
 .viewer video{
   width:100%;
   height:100%;
-  border:0;
+  object-fit:cover;
   border-radius:14px;
-  object-fit:cover;   /* شكل أجمل غالبًا */
-  background:#fff;
 }
 
-/* dots */
 .dots{
   display:flex;
   justify-content:center;
   gap:8px;
-  flex-wrap:wrap;
 }
 
 .dot{
-  width:10px;height:10px;
+  width:10px;
+  height:10px;
   border-radius:50%;
   border:1px solid rgba(0,0,0,.2);
-  background: rgba(255,255,255,.9);
   cursor:pointer;
-  transition: .12s ease;
 }
+
 .dot.active{
   width:26px;
   border-radius:999px;
   background:linear-gradient(135deg,var(--p1),var(--p2));
-  border-color: rgba(124,92,255,.35);
 }
 
-/* controls */
 .controls{
   display:flex;
   gap:10px;
 }
+
 .controls button{
   flex:1;
-  padding:10px 12px;
+  padding:10px;
   border-radius:999px;
   border:1px solid var(--border);
   background:#fff;
   font-weight:900;
-  cursor:pointer;
 }
-.controls button:active{ transform: scale(.98); }
 
-.msg{
+.foot{
   text-align:center;
-  color: var(--muted);
-  font-weight:900;
-  padding: 10px 0;
+  font-size:12px;
+  color:var(--muted);
+  padding:12px;
+  border-top:1px solid var(--border);
 }
 
 @media(max-width:900px){
-  .grid{ grid-template-columns: 1fr; }
-  .card{ min-height:520px; }
+  .grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -312,47 +259,32 @@ body{
 
 <main class="grid">
 
-  <!-- ✅ يمين: الهوية المهنية -->
+  <!-- الهوية المهنية -->
   <section class="card">
     <div class="identityWrap">
       <h2>الهوية المهنية</h2>
       <div class="vision">
         تتشكل رؤيتي من فلسفة تربوية تُعلي قيمة الفهم والمعنى، وتدعمها ممارسات تدريسية تُحسن التعلم
-        وتُفعل الحوار والتفكير الناقد، وتستثمر التغذية الراجعة والبيانات لتجويد المخرجات؛ بما يصنع
-        طالبة واثقة، مسؤولة، وقادرة على اتخاذ قرارها المعرفي.
+        وتُفعل الحوار والتفكير الناقد، وتستثمر التغذية الراجعة والبيانات لتجويد المخرجات.
       </div>
+      <div class="icons" id="icons"></div>
     </div>
     <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
   </section>
 
-  <!-- ✅ يسار: السلايدر -->
+  <!-- السلايدر -->
   <section class="card">
     <div class="mediaWrap">
-
-      <div class="stage loading" id="stage">
-        <div class="topBar">
-          <div class="pill" id="caption">—</div>
-          <div class="counter" id="counter">0/0</div>
-        </div>
-
-        <div class="skeleton">
-          <div class="skeletonBox"></div>
-        </div>
-
+      <div class="stage">
         <div class="viewer" id="viewer"></div>
       </div>
-
       <div class="dots" id="dots"></div>
-
       <div class="controls">
-        <button id="prevBtn">السابق</button>
-        <button id="toggleBtn">إيقاف</button>
-        <button id="nextBtn">التالي</button>
+        <button onclick="prev()">السابق</button>
+        <button onclick="toggle()">إيقاف</button>
+        <button onclick="next()">التالي</button>
       </div>
-
-      <div class="msg" id="statusMsg">جاري تحميل الوسائط…</div>
     </div>
-
     <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
   </section>
 
@@ -360,208 +292,39 @@ body{
 </div>
 
 <script>
-/* =========================
-   رابط شيت الوسائط (CSV)
-   الأعمدة: type,url,title
-   type: iframe | image | video
-========================= */
-const MEDIA_CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEHayG4LZPyitS9dWgRweARkU4gWhGc0vxUFjZbOan32ZG6B9zSYpAKd02bE2nkysvXoIC3EH-iN4O/pub?output=csv";
+const MEDIA = [
+  "https://drive.google.com/file/d/1giICP1ZHOiY4uR083VfTR_COSJUKYf2d/preview",
+  "https://drive.google.com/file/d/1-viMbM-dVghJf8DQaZ1MJKUQvQjdoP4K/preview"
+];
 
-const INTERVAL_MS = 7000;
+let i=0,play=true,t;
 
-/* ===== عناصر الصفحة ===== */
-let MEDIA = [];
-let idx = 0;
-let timer = null;
-let playing = true;
+const v=document.getElementById("viewer");
+const d=document.getElementById("dots");
 
-const stage   = document.getElementById("stage");
-const viewer  = document.getElementById("viewer");
-const dotsEl  = document.getElementById("dots");
-const caption = document.getElementById("caption");
-const counter = document.getElementById("counter");
-const statusMsg = document.getElementById("statusMsg");
-
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
-const toggleBtn = document.getElementById("toggleBtn");
-
-/* ===== CSV parser يدعم الفواصل داخل الاقتباس ===== */
-function splitCSVLine(line){
-  const res = [];
-  let cur = "", inQ = false;
-  for(let i=0;i<line.length;i++){
-    const ch = line[i];
-    if(ch === '"'){
-      if(inQ && line[i+1] === '"'){ cur += '"'; i++; }
-      else inQ = !inQ;
-    } else if(ch === ',' && !inQ){
-      res.push(cur); cur = "";
-    } else cur += ch;
-  }
-  res.push(cur);
-  return res.map(s => s.trim());
-}
-
-function parseCSV(text){
-  const lines = text.trim().split(/\r?\n/).filter(l => l.trim() !== "");
-  if(lines.length < 2) return {header:[], rows:[]};
-  const header = splitCSVLine(lines[0]).map(h => h.toLowerCase());
-  const rows = [];
-  for(let i=1;i<lines.length;i++){
-    rows.push(splitCSVLine(lines[i]));
-  }
-  return {header, rows};
-}
-
-function col(header, name){
-  return header.indexOf(name.toLowerCase());
-}
-
-/* ===== واجهة ===== */
-function setLoading(on){
-  stage.classList.toggle("loading", !!on);
-}
-
-function setCaption(text){
-  caption.classList.remove("show");
-  caption.textContent = text || "—";
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => caption.classList.add("show"));
-  });
-}
-
-function buildDots(){
-  dotsEl.innerHTML = "";
-  MEDIA.forEach((_, i) => {
-    const d = document.createElement("div");
-    d.className = "dot";
-    d.addEventListener("click", () => goTo(i, true));
-    dotsEl.appendChild(d);
-  });
-}
-
-function updateDots(){
-  [...dotsEl.children].forEach((d, i) => d.classList.toggle("active", i === idx));
-}
-
-function updateCounter(){
-  counter.textContent = MEDIA.length ? `${idx+1}/${MEDIA.length}` : `0/0`;
-}
-
-/* ===== عرض سلايد ===== */
-function render(){
-  if(!MEDIA.length){
-    viewer.innerHTML = `<div class="msg">لا توجد وسائط في الشيت</div>`;
-    setCaption("—");
-    updateCounter();
-    dotsEl.innerHTML = "";
-    statusMsg.textContent = "لا توجد وسائط";
-    setLoading(false);
-    return;
-  }
-
-  const it = MEDIA[idx];
-  setCaption(it.title || "—");
-  updateCounter();
-  updateDots();
-
-  setLoading(true);
-  viewer.innerHTML = "";
-
-  if(it.type === "image"){
-    const img = document.createElement("img");
-    img.src = it.url;
-    img.alt = it.title || "image";
-    img.loading = "eager";
-    img.onload = () => setLoading(false);
-    img.onerror = () => { setLoading(false); statusMsg.textContent = "تعذر تحميل صورة"; };
-    viewer.appendChild(img);
-
-  } else if(it.type === "video"){
-    const v = document.createElement("video");
-    v.src = it.url;
-    v.autoplay = true;
-    v.muted = true;
-    v.loop = true;
-    v.playsInline = true;
-    v.onloadeddata = () => setLoading(false);
-    v.onerror = () => { setLoading(false); statusMsg.textContent = "تعذر تحميل فيديو"; };
-    viewer.appendChild(v);
-
-  } else {
-    // iframe (Drive preview / YouTube embed / أي رابط iframe)
-    const f = document.createElement("iframe");
-    f.src = it.url;
-    f.allow = "autoplay; encrypted-media; picture-in-picture";
-    f.referrerPolicy = "strict-origin-when-cross-origin";
-    f.onload = () => setLoading(false);
-    f.onerror = () => { setLoading(false); statusMsg.textContent = "تعذر تحميل iframe"; };
-    viewer.appendChild(f);
-  }
-
-  statusMsg.textContent = "جاهز ✅";
-}
-
-function goTo(newIdx, manual=false){
-  if(!MEDIA.length) return;
-  idx = (newIdx + MEDIA.length) % MEDIA.length;
-  render();
-  if(manual) restart();
-}
-
-function next(manual=false){ goTo(idx + 1, manual); }
-function prev(manual=false){ goTo(idx - 1, manual); }
-
-function restart(){
-  if(timer) clearInterval(timer);
-  timer = setInterval(() => { if(playing) next(false); }, INTERVAL_MS);
-}
-
-/* ===== تحميل من الشيت ===== */
-async function loadMediaFromSheet(){
-  statusMsg.textContent = "جاري تحميل الوسائط…";
-  try{
-    const res = await fetch(MEDIA_CSV_URL, {cache:"no-store"});
-    const text = await res.text();
-    const {header, rows} = parseCSV(text);
-
-    const tI = col(header, "type");
-    const uI = col(header, "url");
-    const cI = col(header, "title");
-
-    MEDIA = rows.map(r => ({
-      type: (r[tI] || "iframe").trim().toLowerCase(),
-      url:  (r[uI] || "").trim(),
-      title:(r[cI] || "").trim(),
-    })).filter(x => x.url);
-
-    idx = 0;
-    buildDots();
-    render();
-    restart();
-  }catch(e){
-    statusMsg.textContent = "تعذر قراءة شيت الوسائط ❌";
-    viewer.innerHTML = `<div class="msg" style="color:#ef4444">تعذر قراءة شيت الوسائط (CSV)</div>`;
-    dotsEl.innerHTML = "";
-    setLoading(false);
-  }
-}
-
-/* ===== أزرار ===== */
-prevBtn.addEventListener("click", () => prev(true));
-nextBtn.addEventListener("click", () => next(true));
-toggleBtn.addEventListener("click", () => {
-  playing = !playing;
-  toggleBtn.textContent = playing ? "إيقاف" : "تشغيل";
+MEDIA.forEach((_,x)=>{
+  const dot=document.createElement("div");
+  dot.className="dot";
+  dot.onclick=()=>go(x);
+  d.appendChild(dot);
 });
 
-/* تشغيل */
-loadMediaFromSheet();
+function go(x){
+  i=x;
+  document.querySelectorAll(".dot").forEach((e,j)=>e.classList.toggle("active",j===i));
+  v.innerHTML=`<iframe src="${MEDIA[i]}"></iframe>`;
+}
 
-/* (اختياري) تحديث تلقائي كل دقيقة لو تغيّر الشيت */
-setInterval(loadMediaFromSheet, 60000);
+function next(){go((i+1)%MEDIA.length)}
+function prev(){go((i-1+MEDIA.length)%MEDIA.length)}
+function toggle(){play=!play}
+
+function auto(){
+  if(play) next();
+}
+t=setInterval(auto,7000);
+
+go(0);
 </script>
 </body>
 </html>
