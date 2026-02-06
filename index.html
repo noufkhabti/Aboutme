@@ -578,7 +578,7 @@ function restart(){
 }
 
 async function loadMedia(){
-  status.textContent = "جاري تحميل البيانات من الشيت…";
+  status.textContent = "جاري تحميل البيانات …";
   try{
     const r = await fetch(MEDIA_CSV_URL, {cache:"no-store"});
     const t = await r.text();
@@ -601,7 +601,7 @@ async function loadMedia(){
       return {type, url, title};
     }).filter(Boolean);
 
-    status.textContent = `تم تحميل ${MEDIA.length} عنصر من الشيت`;
+    status.textContent = `تم تحميل ${MEDIA.length} عناصر `;
 
     buildDots();
 
