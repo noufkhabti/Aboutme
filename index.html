@@ -15,7 +15,6 @@
   --radius: 22px;
   --p1:#ff5ea8; --p2:#7c5cff; --p3:#22c55e; --p4:#06b6d4; --p5:#f59e0b;
 }
-
 *{box-sizing:border-box}
 body{
   margin:0;
@@ -32,6 +31,7 @@ body{
 }
 .wrap{ width:min(1120px,100%); display:flex; flex-direction:column; gap:18px; }
 
+/* header */
 .topHeader{
   text-align:center;
   background:var(--card);
@@ -56,6 +56,7 @@ body{
   min-height:520px;
 }
 
+/* identity */
 .identityWrap{ padding:18px; display:flex; flex-direction:column; gap:14px; height:100%; }
 .identityWrap h2{ text-align:center; font-size:24px; font-weight:1000; margin:0; }
 .vision{
@@ -68,7 +69,7 @@ body{
   text-align:center;
 }
 
-/* أيقونات 2×2 */
+/* icons 2x2 */
 .icons{ margin-top:auto; display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 .iconBtn{
   display:flex; align-items:center; justify-content:space-between; gap:12px;
@@ -92,7 +93,7 @@ body{
 .g3{background:linear-gradient(135deg,var(--p4),#3b82f6)}
 .g4{background:linear-gradient(135deg,var(--p3),var(--p4))}
 
-/* السلايدر */
+/* slider */
 .mediaWrap{ padding:16px; display:flex; flex-direction:column; gap:12px; height:100%; }
 .stage{
   position:relative; flex:1;
@@ -100,7 +101,7 @@ body{
   background:#fff; overflow:hidden;
 }
 
-/* عنوان + عداد */
+/* caption */
 .caption{
   position:absolute; top:12px; right:12px; left:12px;
   z-index:6; display:flex; justify-content:space-between; gap:10px;
@@ -118,7 +119,6 @@ body{
   transition:.35s ease;
 }
 .capPill.show{ opacity:1; transform:translateY(0); }
-
 .counter{
   background:rgba(255,255,255,.88);
   border:1px solid rgba(0,0,0,.10);
@@ -127,14 +127,17 @@ body{
   white-space:nowrap;
 }
 
-/* Skeleton */
+/* skeleton */
 .skeleton{ position:absolute; inset:0; padding:12px; z-index:5; display:none; }
 .stage.loading .skeleton{ display:block; }
 .skeletonBox{
   width:100%; height:100%;
   border-radius:14px;
   border:1px solid rgba(17,24,39,.08);
-  background:linear-gradient(90deg, rgba(240,240,245,.75) 0%, rgba(255,255,255,.95) 45%, rgba(240,240,245,.75) 100%);
+  background:linear-gradient(90deg,
+    rgba(240,240,245,.75) 0%,
+    rgba(255,255,255,.95) 45%,
+    rgba(240,240,245,.75) 100%);
   background-size:200% 100%;
   animation:shimmer 1.2s infinite linear;
 }
@@ -150,8 +153,7 @@ body{
 
 .controls{ display:flex; gap:10px; }
 .controls button{
-  flex:1; padding:10px;
-  border-radius:999px; border:1px solid var(--border);
+  flex:1; padding:10px; border-radius:999px; border:1px solid var(--border);
   background:#fff; font-weight:900; cursor:pointer;
 }
 
@@ -180,7 +182,7 @@ body{
 
 <main class="grid">
 
-  <!-- يمين -->
+  <!-- يمين: الهوية المهنية -->
   <section class="card">
     <div class="identityWrap">
       <h2>الهوية المهنية</h2>
@@ -193,7 +195,7 @@ body{
     <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
   </section>
 
-  <!-- يسار -->
+  <!-- يسار: السلايدر -->
   <section class="card">
     <div class="mediaWrap">
       <div class="stage" id="stage">
@@ -207,14 +209,15 @@ body{
       </div>
 
       <div class="dots" id="dots"></div>
+
       <div class="controls">
         <button id="prevBtn">السابق</button>
         <button id="toggleBtn">إيقاف</button>
         <button id="nextBtn">التالي</button>
       </div>
-      <div class="status" id="status">جاري التحميل…</div>
-    </div>
 
+      <div class="status" id="status">جاري تحميل البيانات…</div>
+    </div>
     <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
   </section>
 
@@ -222,17 +225,17 @@ body{
 </div>
 
 <script>
-/* شيت الروابط للأيقونات (title,url,icon,desc) */
+/* ✅ شيت الروابط للأيقونات (title,url,icon,desc) */
 const LINKS_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQaN3UjaCfxytCPsU6tVG3q4Doq5MzAga4eN9DNn7CXHO2AgikUq0F3PggFNgMub2C2if6LoRuRDRoD/pub?output=csv";
 
-/* شيت الوسائط (type,url,title) */
+/* ✅ شيت الوسائط — تم تحديثه بالرابط الذي أرسلتيه */
 const MEDIA_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEHayG4LZPyitS9dWgRweARkU4gWhGc0vxUFjZbOan32ZG6B9zSYpAKd02bE2nkysvXoIC3EH-iN4O/pub?output=csv";
 
 const INTERVAL_MS = 7000;
 
-/* CSV parser (مع BOM) */
+/* CSV robust */
 function splitCSVLine(line){
   const res=[]; let cur="", inQ=false;
   for(let i=0;i<line.length;i++){
@@ -248,55 +251,44 @@ function splitCSVLine(line){
   return res.map(s=>s.trim());
 }
 function parseCSV(text){
-  const clean = (text || "").replace(/^\uFEFF/, ""); // ✅ BOM
+  const clean = (text||"").replace(/^\uFEFF/, ""); // BOM
   const lines = clean.trim().split(/\r?\n/).filter(l=>l.trim()!=="");
-  if(lines.length < 2) return {header:[], rows:[]};
-  const header = splitCSVLine(lines[0]).map(h => (h||"").toLowerCase().trim().replace(/^\uFEFF/,""));
-  const rows = lines.slice(1).map(splitCSVLine);
-  return {header, rows};
+  if(lines.length < 2) return [];
+  // تجاهل الهيدر واقرأ الصفوف فقط: A=type, B=url, C=title
+  return lines.slice(1).map(splitCSVLine);
 }
-function colAny(header, names){
-  for(const n of names){
-    const idx = header.indexOf(n.toLowerCase());
-    if(idx !== -1) return idx;
-  }
-  return -1;
-}
-function esc(s){
-  return String(s||"")
-    .replaceAll("&","&amp;").replaceAll("<","&lt;")
-    .replaceAll(">","&gt;").replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
+
+/* Drive preview helper */
 function toDrivePreview(url){
   const m = String(url||"").match(/drive\.google\.com\/file\/d\/([^/]+)/i);
   if(!m) return url;
   return `https://drive.google.com/file/d/${m[1]}/preview`;
 }
 
-/* أيقونات */
+function esc(s){
+  return String(s||"")
+    .replaceAll("&","&amp;").replaceAll("<","&lt;")
+    .replaceAll(">","&gt;").replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+/* icons from links sheet (expects: title,url,icon,desc) */
 async function loadIcons(){
   const iconsEl = document.getElementById("icons");
   try{
     const r = await fetch(LINKS_CSV_URL, {cache:"no-store"});
     const t = await r.text();
-    const {header, rows} = parseCSV(t);
-
-    const tI = colAny(header, ["title","العنوان"]);
-    const uI = colAny(header, ["url","link","رابط"]);
-    const iI = colAny(header, ["icon","أيقونة"]);
-    const dI = colAny(header, ["desc","description","وصف"]);
+    const rows = parseCSV(t);
 
     const items = rows.map(row=>({
-      title:(row[tI]||"").trim(),
-      url:(row[uI]||"").trim(),
-      icon:(row[iI]||"🔗").trim(),
-      desc:(row[dI]||"").trim(),
+      title:(row[0]||"").trim(),
+      url:(row[1]||"").trim(),
+      icon:(row[2]||"🔗").trim(),
+      desc:(row[3]||"").trim(),
     })).filter(x=>x.title && x.url).slice(0,4);
 
     iconsEl.innerHTML="";
     const bubbles=["g1","g2","g3","g4"];
-
     items.forEach((it, idx)=>{
       const a=document.createElement("a");
       a.className="iconBtn";
@@ -319,8 +311,8 @@ async function loadIcons(){
   }
 }
 
-/* سلايدر */
-let MEDIA=[]; let i=0; let play=true; let timer=null;
+/* slider */
+let MEDIA=[]; let idx=0; let playing=true; let timer=null;
 
 const stage=document.getElementById("stage");
 const viewer=document.getElementById("viewer");
@@ -342,30 +334,27 @@ function setCaption(text){
 
 function buildDots(){
   dots.innerHTML="";
-  MEDIA.forEach((_,x)=>{
+  MEDIA.forEach((_,i)=>{
     const dot=document.createElement("div");
     dot.className="dot";
-    dot.onclick=()=>go(x,true);
+    dot.onclick=()=>go(i,true);
     dots.appendChild(dot);
   });
 }
 
-function go(x, manual=false){
+function renderCurrent(){
   if(!MEDIA.length) return;
 
-  i = (x + MEDIA.length) % MEDIA.length;
+  [...dots.children].forEach((d,i)=>d.classList.toggle("active", i===idx));
 
-  document.querySelectorAll(".dot")
-    .forEach((e,j)=>e.classList.toggle("active", j===i));
-
-  const item = MEDIA[i];
+  const item = MEDIA[idx];
   setCaption(item.title);
-  count.textContent = `${i+1}/${MEDIA.length}`;
-  status.textContent = `تم تحميل البيانات: ${MEDIA.length} عنصر`;
+  count.textContent = `${idx+1}/${MEDIA.length}`;
 
   showSkeleton(true);
   viewer.innerHTML="";
 
+  // Drive preview الأفضل iframe
   const type = (item.type || "iframe").toLowerCase();
 
   if(type === "image"){
@@ -373,8 +362,7 @@ function go(x, manual=false){
     img.src=item.url;
     img.alt=item.title || "image";
     img.onload=()=>showSkeleton(false);
-    img.onerror=()=>{
-      // fallback: iframe
+    img.onerror=()=>{ // fallback
       const f=document.createElement("iframe");
       f.src=item.url;
       f.onload=()=>showSkeleton(false);
@@ -382,13 +370,6 @@ function go(x, manual=false){
       viewer.appendChild(f);
     };
     viewer.appendChild(img);
-  } else if(type === "video"){
-    const v=document.createElement("video");
-    v.src=item.url;
-    v.autoplay=true; v.muted=true; v.loop=true; v.playsInline=true;
-    v.onloadeddata=()=>showSkeleton(false);
-    v.onerror=()=>showSkeleton(false);
-    viewer.appendChild(v);
   } else {
     const f=document.createElement("iframe");
     f.src=item.url;
@@ -396,68 +377,69 @@ function go(x, manual=false){
     f.onerror=()=>showSkeleton(false);
     viewer.appendChild(f);
   }
+}
 
+function go(i, manual=false){
+  idx = (i + MEDIA.length) % MEDIA.length;
+  renderCurrent();
   if(manual) restart();
 }
-
-function next(manual=false){ go(i+1, manual); }
-function prev(manual=false){ go(i-1, manual); }
+function next(manual=false){ go(idx+1, manual); }
+function prev(manual=false){ go(idx-1, manual); }
 
 function toggle(){
-  play = !play;
-  toggleBtn.textContent = play ? "إيقاف" : "تشغيل";
+  playing = !playing;
+  toggleBtn.textContent = playing ? "إيقاف" : "تشغيل";
 }
-
 function restart(){
   if(timer) clearInterval(timer);
-  timer = setInterval(()=>{ if(play) next(false); }, INTERVAL_MS);
+  timer = setInterval(()=>{ if(playing) next(false); }, INTERVAL_MS);
 }
 
 async function loadMedia(){
-  status.textContent="جاري تحميل الوسائط…";
+  status.textContent = "جاري تحميل البيانات من الشيت…";
   try{
     const r = await fetch(MEDIA_CSV_URL, {cache:"no-store"});
     const t = await r.text();
-    const {header, rows} = parseCSV(t);
-
-    const typeI  = colAny(header, ["type","نوع"]);
-    const urlI   = colAny(header, ["url","link","رابط"]);
-    const titleI = colAny(header, ["title","caption","العنوان","وصف"]);
+    const rows = parseCSV(t);
 
     MEDIA = rows.map(row=>{
-      let type = typeI !== -1 ? (row[typeI]||"iframe").trim().toLowerCase() : "iframe";
-      let url  = urlI  !== -1 ? (row[urlI] || "").trim() : "";
-      let title= titleI!== -1 ? (row[titleI]||"").trim() : "";
+      let type  = (row[0]||"iframe").trim().toLowerCase();
+      let url   = (row[1]||"").trim();
+      let title = (row[2]||"").trim();
 
-      // تصحيح نوع غير معروف
-      if(!["iframe","image","video"].includes(type)) type = "iframe";
+      if(!url) return null;
 
-      // Drive preview
+      // Drive -> preview + iframe
       if(/drive\.google\.com\/file\/d\//i.test(url)){
         url = toDrivePreview(url);
         type = "iframe";
       }
+
+      if(!["iframe","image","video"].includes(type)) type = "iframe";
       return {type, url, title};
-    }).filter(x=>x.url);
+    }).filter(Boolean);
+
+    status.textContent = `تم تحميل ${MEDIA.length} عنصر من الشيت`;
 
     buildDots();
 
     if(MEDIA.length){
+      idx = 0;
       go(0,false);
       restart();
     } else {
-      viewer.innerHTML = `<div style="text-align:center;color:#6b7280;font-weight:900;">لا توجد وسائط في الشيت</div>`;
+      viewer.innerHTML = `<div style="text-align:center;color:#6b7280;font-weight:900;">لا توجد روابط صالحة في الشيت</div>`;
       setCaption("");
-      count.textContent="0/0";
+      count.textContent = "0/0";
       showSkeleton(false);
-      status.textContent="لم يتم العثور على بيانات في الشيت";
     }
   }catch(e){
     viewer.innerHTML = `<div style="text-align:center;color:#ef4444;font-weight:900;">تعذر قراءة شيت الوسائط</div>`;
     setCaption("تعذر التحميل");
-    count.textContent="0/0";
+    count.textContent = "0/0";
     showSkeleton(false);
-    status.textContent="تعذر التحميل (تحققي من Publish + الرابط)";
+    status.textContent = "تعذر التحميل — تأكدي أن رابط CSV يعمل";
   }
 }
 
@@ -468,7 +450,7 @@ toggleBtn.onclick=toggle;
 loadIcons();
 loadMedia();
 
-// تحديث تلقائي (اختياري)
+// تحديث كل دقيقة (اختياري)
 setInterval(loadMedia, 60000);
 setInterval(loadIcons, 60000);
 </script>
