@@ -58,13 +58,11 @@ body{
   box-shadow:var(--shadow);
   padding:22px 18px;
 }
-
 .topHeader h1{
   margin:0;
   font-size:30px;
   font-weight:1000;
 }
-
 .topHeader p{
   margin-top:8px;
   font-size:14px;
@@ -72,7 +70,6 @@ body{
   line-height:1.8;
   font-weight:700;
 }
-
 .topHeader hr{
   border:0;
   border-top:1px solid rgba(17,24,39,.08);
@@ -124,6 +121,7 @@ body{
   text-align:center;
 }
 
+/* ===== أيقونات 2×2 ===== */
 .icons{
   margin-top:auto;
   display:grid;
@@ -133,15 +131,23 @@ body{
 
 .iconBtn{
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
+  gap:12px;
   padding:14px;
   border-radius:18px;
   border:1px solid var(--border);
   background:rgba(255,255,255,.9);
   text-decoration:none;
   color:var(--text);
+  transition:.15s ease;
+  min-height:76px;
 }
+.iconBtn:hover{ transform: translateY(-2px); }
+
+.iconTxt{ display:flex; flex-direction:column; gap:4px; min-width:0; }
+.iconTxt .t{ font-weight:1000; font-size:14px; line-height:1.2; }
+.iconTxt .d{ font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:230px; }
 
 .iconBubble{
   width:44px;
@@ -172,8 +178,48 @@ body{
   flex:1;
   border-radius:18px;
   border:1px solid var(--border);
-  background:#fff; /* مهم */
+  background:#fff;
   overflow:hidden;
+}
+
+/* ✅ عنوان السلايدر */
+.caption{
+  position:absolute;
+  top:12px;
+  right:12px;
+  left:12px;
+  z-index:6;
+  pointer-events:none;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+.capPill{
+  max-width:70%;
+  background: rgba(255,255,255,.86);
+  border:1px solid var(--border);
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:950;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+
+  opacity:0;
+  transform: translateY(-8px);
+  transition: .35s ease;
+}
+.capPill.show{ opacity:1; transform: translateY(0); }
+
+.counter{
+  background: rgba(255,255,255,.86);
+  border:1px solid var(--border);
+  padding:8px 10px;
+  border-radius:999px;
+  font-size:12px;
+  color:var(--muted);
+  white-space:nowrap;
 }
 
 .viewer{
@@ -184,11 +230,11 @@ body{
   place-items:center;
 }
 
-/* ⭐ الحل هنا */
 .viewer iframe{
   width:100%;
   height:100%;
   border:0;
+  border-radius:14px;
   background:#fff !important;
 }
 
@@ -204,6 +250,7 @@ body{
   display:flex;
   justify-content:center;
   gap:8px;
+  flex-wrap:wrap;
 }
 
 .dot{
@@ -212,6 +259,7 @@ body{
   border-radius:50%;
   border:1px solid rgba(0,0,0,.2);
   cursor:pointer;
+  background: rgba(255,255,255,.9);
 }
 
 .dot.active{
@@ -232,6 +280,7 @@ body{
   border:1px solid var(--border);
   background:#fff;
   font-weight:900;
+  cursor:pointer;
 }
 
 .foot{
@@ -267,8 +316,11 @@ body{
         تتشكل رؤيتي من فلسفة تربوية تُعلي قيمة الفهم والمعنى، وتدعمها ممارسات تدريسية تُحسن التعلم
         وتُفعل الحوار والتفكير الناقد، وتستثمر التغذية الراجعة والبيانات لتجويد المخرجات.
       </div>
+
+      <!-- ✅ ستُملأ تلقائياً -->
       <div class="icons" id="icons"></div>
     </div>
+
     <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
   </section>
 
@@ -276,15 +328,25 @@ body{
   <section class="card">
     <div class="mediaWrap">
       <div class="stage">
+
+        <!-- ✅ عنوان + عدّاد -->
+        <div class="caption">
+          <div class="capPill" id="capText">—</div>
+          <div class="counter" id="countText">0/0</div>
+        </div>
+
         <div class="viewer" id="viewer"></div>
       </div>
+
       <div class="dots" id="dots"></div>
+
       <div class="controls">
-        <button onclick="prev()">السابق</button>
-        <button onclick="toggle()">إيقاف</button>
-        <button onclick="next()">التالي</button>
+        <button id="prevBtn">السابق</button>
+        <button id="toggleBtn">إيقاف</button>
+        <button id="nextBtn">التالي</button>
       </div>
     </div>
+
     <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
   </section>
 
@@ -292,39 +354,232 @@ body{
 </div>
 
 <script>
-const MEDIA = [
-  "https://drive.google.com/file/d/1giICP1ZHOiY4uR083VfTR_COSJUKYf2d/preview",
-  "https://drive.google.com/file/d/1-viMbM-dVghJf8DQaZ1MJKUQvQjdoP4K/preview"
-];
+/* ✅ شيت الأيقونات (title,url,icon,desc) */
+const LINKS_CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQaN3UjaCfxytCPsU6tVG3q4Doq5MzAga4eN9DNn7CXHO2AgikUq0F3PggFNgMub2C2if6LoRuRDRoD/pub?output=csv";
 
-let i=0,play=true,t;
+/* ✅ شيت الوسائط (type,url,title) */
+const MEDIA_CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEHayG4LZPyitS9dWgRweARkU4gWhGc0vxUFjZbOan32ZG6B9zSYpAKd02bE2nkysvXoIC3EH-iN4O/pub?output=csv";
 
-const v=document.getElementById("viewer");
-const d=document.getElementById("dots");
+const INTERVAL_MS = 7000;
 
-MEDIA.forEach((_,x)=>{
-  const dot=document.createElement("div");
-  dot.className="dot";
-  dot.onclick=()=>go(x);
-  d.appendChild(dot);
-});
-
-function go(x){
-  i=x;
-  document.querySelectorAll(".dot").forEach((e,j)=>e.classList.toggle("active",j===i));
-  v.innerHTML=`<iframe src="${MEDIA[i]}"></iframe>`;
+/* ===== CSV parser يدعم الاقتباس ===== */
+function splitCSVLine(line){
+  const res = [];
+  let cur="", inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch === '"'){
+      if(inQ && line[i+1] === '"'){ cur+='"'; i++; }
+      else inQ=!inQ;
+    } else if(ch === ',' && !inQ){
+      res.push(cur); cur="";
+    } else cur+=ch;
+  }
+  res.push(cur);
+  return res.map(s=>s.trim());
+}
+function parseCSV(text){
+  const lines = text.trim().split(/\r?\n/).filter(l=>l.trim()!=="");
+  if(lines.length < 2) return {header:[], rows:[]};
+  const header = splitCSVLine(lines[0]).map(h=>h.toLowerCase());
+  const rows = lines.slice(1).map(splitCSVLine);
+  return {header, rows};
+}
+function col(header,name){ return header.indexOf(name.toLowerCase()); }
+function esc(s){
+  return String(s||"")
+    .replaceAll("&","&amp;").replaceAll("<","&lt;")
+    .replaceAll(">","&gt;").replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
-function next(){go((i+1)%MEDIA.length)}
-function prev(){go((i-1+MEDIA.length)%MEDIA.length)}
-function toggle(){play=!play}
-
-function auto(){
-  if(play) next();
+/* ===== Drive -> preview ===== */
+function toDrivePreview(url){
+  const m = url.match(/drive\.google\.com\/file\/d\/([^/]+)/i);
+  if(!m) return url;
+  return `https://drive.google.com/file/d/${m[1]}/preview`;
 }
-t=setInterval(auto,7000);
 
-go(0);
+/* ===== الأيقونات ===== */
+async function loadIcons(){
+  const iconsEl = document.getElementById("icons");
+  try{
+    const r = await fetch(LINKS_CSV_URL, {cache:"no-store"});
+    const t = await r.text();
+    const {header, rows} = parseCSV(t);
+
+    const tI = col(header,"title");
+    const uI = col(header,"url");
+    const iI = col(header,"icon");
+    const dI = col(header,"desc");
+
+    const items = rows.map(row=>({
+      title:(row[tI]||"").trim(),
+      url:(row[uI]||"").trim(),
+      icon:(row[iI]||"🔗").trim(),
+      desc:(row[dI]||"").trim(),
+    })).filter(x=>x.title && x.url).slice(0,4);
+
+    iconsEl.innerHTML = "";
+    const bubbles = ["g1","g2","g3","g4"];
+
+    items.forEach((it, idx)=>{
+      const a = document.createElement("a");
+      a.className = "iconBtn";
+      a.href = it.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.innerHTML = `
+        <div class="iconTxt">
+          <div class="t">${esc(it.title)}</div>
+          <div class="d">${esc(it.desc || "")}</div>
+        </div>
+        <div class="iconBubble ${bubbles[idx%4]}">${esc(it.icon)}</div>
+      `;
+      iconsEl.appendChild(a);
+    });
+
+    if(!items.length){
+      iconsEl.innerHTML = `<div style="grid-column:1/-1;color:#6b7280;font-weight:900;text-align:center;">شيت الروابط فارغ</div>`;
+    }
+
+  }catch(e){
+    iconsEl.innerHTML = `<div style="grid-column:1/-1;color:#ef4444;font-weight:900;text-align:center;">تعذر قراءة شيت الروابط</div>`;
+  }
+}
+
+/* ===== السلايدر ===== */
+let MEDIA = [];
+let i = 0;
+let play = true;
+let tmr = null;
+
+const v = document.getElementById("viewer");
+const d = document.getElementById("dots");
+const cap = document.getElementById("capText");
+const count = document.getElementById("countText");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const toggleBtn = document.getElementById("toggleBtn");
+
+function setCaption(text){
+  cap.classList.remove("show");
+  cap.textContent = text || "—";
+  requestAnimationFrame(()=> cap.classList.add("show"));
+}
+
+function buildDots(){
+  d.innerHTML = "";
+  MEDIA.forEach((_,x)=>{
+    const dot = document.createElement("div");
+    dot.className = "dot";
+    dot.onclick = ()=> go(x,true);
+    d.appendChild(dot);
+  });
+}
+
+function go(x, manual=false){
+  if(!MEDIA.length) return;
+  i = (x + MEDIA.length) % MEDIA.length;
+
+  document.querySelectorAll(".dot").forEach((e,j)=> e.classList.toggle("active", j===i));
+
+  const item = MEDIA[i];
+  setCaption(item.title);
+  count.textContent = `${i+1}/${MEDIA.length}`;
+
+  // عرض
+  v.innerHTML = "";
+  if(item.type === "image"){
+    const img = document.createElement("img");
+    img.src = item.url;
+    img.alt = item.title || "image";
+    // لو فشل: حوّله iframe
+    img.onerror = () => { v.innerHTML = `<iframe src="${item.url}"></iframe>`; };
+    v.appendChild(img);
+  } else if(item.type === "video"){
+    const vid = document.createElement("video");
+    vid.src = item.url;
+    vid.autoplay = true;
+    vid.muted = true;
+    vid.loop = true;
+    vid.playsInline = true;
+    v.appendChild(vid);
+  } else {
+    v.innerHTML = `<iframe src="${item.url}"></iframe>`;
+  }
+
+  if(manual) restart();
+}
+
+function next(manual=false){ go(i+1, manual); }
+function prev(manual=false){ go(i-1, manual); }
+function toggle(){
+  play = !play;
+  toggleBtn.textContent = play ? "إيقاف" : "تشغيل";
+}
+
+function restart(){
+  if(tmr) clearInterval(tmr);
+  tmr = setInterval(()=>{ if(play) next(false); }, INTERVAL_MS);
+}
+
+async function loadMedia(){
+  try{
+    const r = await fetch(MEDIA_CSV_URL, {cache:"no-store"});
+    const t = await r.text();
+    const {header, rows} = parseCSV(t);
+
+    const typeI = col(header,"type");
+    const urlI  = col(header,"url");
+    const titleI= col(header,"title");
+
+    MEDIA = rows.map(row=>{
+      let type = (row[typeI] || "iframe").trim().toLowerCase();
+      let url  = (row[urlI]  || "").trim();
+      const title= (row[titleI]||"").trim();
+
+      // إذا درايف: خليه iframe + preview
+      if(/drive\.google\.com\/file\/d\//i.test(url)){
+        url = toDrivePreview(url);
+        type = "iframe";
+      }
+      return {type, url, title};
+    }).filter(x => x.url);
+
+    buildDots();
+    count.textContent = `0/${MEDIA.length || 0}`;
+
+    if(MEDIA.length){
+      go(0,false);
+      restart();
+    } else {
+      v.innerHTML = `<div style="color:#6b7280;font-weight:900;text-align:center;">لا توجد وسائط في الشيت</div>`;
+      setCaption("—");
+      count.textContent = "0/0";
+    }
+
+  }catch(e){
+    v.innerHTML = `<div style="color:#ef4444;font-weight:900;text-align:center;">تعذر قراءة شيت الوسائط</div>`;
+    setCaption("تعذر التحميل");
+    count.textContent = "0/0";
+  }
+}
+
+/* أزرار */
+prevBtn.onclick = ()=> prev(true);
+nextBtn.onclick = ()=> next(true);
+toggleBtn.onclick = ()=> toggle();
+
+/* تشغيل */
+loadIcons();
+loadMedia();
+
+/* تحديث كل دقيقة (اختياري) */
+setInterval(loadIcons, 60000);
+setInterval(loadMedia, 60000);
 </script>
 </body>
 </html>
