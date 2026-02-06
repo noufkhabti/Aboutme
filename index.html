@@ -51,7 +51,7 @@
       gap:18px;
     }
 
-    /* ===== الهيدر العام (أعلى الصفحة) ===== */
+    /* ===== الهيدر العام ===== */
     .topHeader{
       text-align:center;
       background: var(--card);
@@ -81,7 +81,7 @@
       width:min(680px, 92%);
     }
 
-    /* ===== شبكه البطاقتين ===== */
+    /* ===== شبكة البطاقتين ===== */
     .grid{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -101,7 +101,7 @@
       flex-direction:column;
     }
 
-    /* ===== بطاقة السلايدر (يمين) ===== */
+    /* ===== بطاقة السلايدر (يسار) ===== */
     .mediaWrap{
       padding:16px;
       display:flex;
@@ -197,7 +197,7 @@
     }
     .chip:active{ transform: scale(.98); }
 
-    /* ===== بطاقة الهوية المهنية (يسار) ===== */
+    /* ===== بطاقة الهوية المهنية (يمين) ===== */
     .identityWrap{
       padding:18px;
       display:flex;
@@ -279,7 +279,7 @@
       box-shadow: 0 10px 18px rgba(0,0,0,.12);
     }
 
-    /* نفس ألواننا الفرايحية */
+    /* ألوان الفقاعات */
     .g1{ background: linear-gradient(135deg,var(--p1),var(--p5)); }
     .g2{ background: linear-gradient(135deg,var(--p2),var(--p1)); }
     .g3{ background: linear-gradient(135deg,var(--p4),#3b82f6); }
@@ -311,10 +311,27 @@
       <hr>
     </header>
 
-    <!-- ✅ بطاقتين: (يمين سلايدر) ثم (يسار هوية) -->
+    <!-- ✅ الترتيب هنا هو اللي يحدد يمين/يسار في RTL -->
     <main class="grid">
 
-      <!-- يمين: السلايدر -->
+      <!-- ✅ 1) يمين: الهوية المهنية (أول عنصر = يمين) -->
+      <section class="card">
+        <div class="identityWrap">
+          <h2 class="identityTitle">الهوية المهنية</h2>
+
+          <div class="vision">
+            تتشكل رؤيتي من فلسفة تربوية تُعلي قيمة الفهم والمعنى، وتدعمها ممارسات تدريسية تُحسن التعلم
+            وتُفعل الحوار والتفكير الناقد، وتستثمر التغذية الراجعة والبيانات لتجويد المخرجات؛ بما يصنع
+            طالبة واثقة، مسؤولة، وقادرة على اتخاذ قرارها المعرفي.
+          </div>
+
+          <div class="icons" id="icons"></div>
+        </div>
+
+        <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
+      </section>
+
+      <!-- ✅ 2) يسار: السلايدر (ثاني عنصر = يسار) -->
       <section class="card">
         <div class="mediaWrap">
           <div class="stage">
@@ -337,23 +354,6 @@
         <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
       </section>
 
-      <!-- يسار: الهوية المهنية -->
-      <section class="card">
-        <div class="identityWrap">
-          <h2 class="identityTitle">الهوية المهنية</h2>
-
-          <div class="vision">
-            تتشكل رؤيتي من فلسفة تربوية تُعلي قيمة الفهم والمعنى، وتدعمها ممارسات تدريسية تُحسن التعلم
-            وتُفعل الحوار والتفكير الناقد، وتستثمر التغذية الراجعة والبيانات لتجويد المخرجات؛ بما يصنع
-            طالبة واثقة، مسؤولة، وقادرة على اتخاذ قرارها المعرفي.
-          </div>
-
-          <div class="icons" id="icons"></div>
-        </div>
-
-        <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
-      </section>
-
     </main>
   </div>
 
@@ -367,7 +367,7 @@
 
   const INTERVAL_MS = 7000;
 
-  // ===== CSV parser بسيط يدعم الاقتباس =====
+  // ===== CSV parser يدعم الاقتباس =====
   function splitCSVLine(line){
     const res = [];
     let cur="", inQ=false;
@@ -516,9 +516,8 @@
       v.controls = false;
       viewer.appendChild(v);
     } else if(it.type === "iframe"){
-      // ✅ بدون أي تحويل للرابط — يعرضه كما هو
       const f = document.createElement("iframe");
-      f.src = it.url;
+      f.src = it.url; // بدون تحويل
       f.allow = "autoplay; encrypted-media; picture-in-picture";
       f.referrerPolicy = "strict-origin-when-cross-origin";
       viewer.appendChild(f);
@@ -575,7 +574,6 @@
     toggleBtn.textContent = playing ? "⏸️ إيقاف" : "▶️ تشغيل";
   });
 
-  // تشغيل
   loadIcons();
   loadMedia();
 </script>
