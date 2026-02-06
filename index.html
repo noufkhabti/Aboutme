@@ -1,581 +1,330 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>الهوية المهنية | نوف خبتي</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الهوية المهنية | نوف خبتي</title>
 
-  <style>
-    :root{
-      --bg1:#fff3fb;
-      --bg2:#f1fff6;
-      --bg3:#f3f6ff;
+<style>
+:root{
+  --bg1:#fff3fb;
+  --bg2:#f1fff6;
+  --bg3:#f3f6ff;
 
-      --card: rgba(255,255,255,.82);
-      --border: rgba(17,24,39,.10);
-      --text:#111827;
-      --muted:#6b7280;
+  --card: rgba(255,255,255,.82);
+  --border: rgba(17,24,39,.10);
+  --text:#111827;
+  --muted:#6b7280;
 
-      --shadow: 0 18px 40px rgba(0,0,0,.10);
-      --radius: 22px;
+  --shadow: 0 18px 40px rgba(0,0,0,.10);
+  --radius: 22px;
 
-      --p1:#ff5ea8; /* pink */
-      --p2:#7c5cff; /* purple */
-      --p3:#22c55e; /* green */
-      --p4:#06b6d4; /* cyan */
-      --p5:#f59e0b; /* orange */
-    }
+  --p1:#ff5ea8;
+  --p2:#7c5cff;
+  --p3:#22c55e;
+  --p4:#06b6d4;
+  --p5:#f59e0b;
+}
 
-    *{ box-sizing:border-box; }
+*{box-sizing:border-box}
 
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial;
-      color:var(--text);
-      background:
-        radial-gradient(1200px 700px at 10% 10%, var(--bg1), transparent 60%),
-        radial-gradient(1000px 600px at 90% 20%, var(--bg2), transparent 55%),
-        radial-gradient(900px 600px at 50% 95%, var(--bg3), transparent 55%),
-        #ffffff;
-      min-height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;
-      padding:26px 18px;
-    }
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial;
+  color:var(--text);
+  background:
+    radial-gradient(1200px 700px at 10% 10%, var(--bg1), transparent 60%),
+    radial-gradient(1000px 600px at 90% 20%, var(--bg2), transparent 55%),
+    radial-gradient(900px 600px at 50% 95%, var(--bg3), transparent 55%);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  padding:26px 18px;
+}
 
-    .wrap{
-      width:min(1120px, 100%);
-      display:flex;
-      flex-direction:column;
-      gap:18px;
-    }
+.wrap{
+  width:min(1120px,100%);
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
 
-    /* ===== الهيدر العام ===== */
-    .topHeader{
-      text-align:center;
-      background: var(--card);
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      padding: 22px 18px;
-    }
-    .topHeader h1{
-      margin:0;
-      font-weight:1000;
-      font-size:30px;
-      letter-spacing:.2px;
-    }
-    .topHeader p{
-      margin:8px 0 0;
-      color: rgba(17,24,39,.72);
-      font-weight:700;
-      line-height:1.8;
-      font-size:14px;
-    }
-    .topHeader hr{
-      border:0;
-      border-top:1px solid rgba(17,24,39,.08);
-      margin:16px auto 0;
-      width:min(680px, 92%);
-    }
+/* ===== الهيدر العام ===== */
+.topHeader{
+  text-align:center;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:22px 18px;
+}
 
-    /* ===== شبكة البطاقتين ===== */
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:18px;
-      align-items:stretch;
-    }
+.topHeader h1{
+  margin:0;
+  font-size:30px;
+  font-weight:1000;
+}
 
-    .card{
-      background: var(--card);
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      overflow:hidden;
-      min-height: 520px;
-      display:flex;
-      flex-direction:column;
-    }
+.topHeader p{
+  margin-top:8px;
+  font-size:14px;
+  color:rgba(17,24,39,.75);
+  line-height:1.8;
+  font-weight:700;
+}
 
-    /* ===== بطاقة السلايدر (يسار) ===== */
-    .mediaWrap{
-      padding:16px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      height:100%;
-    }
-    .stage{
-      position:relative;
-      flex:1;
-      border-radius:18px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.72);
-      overflow:hidden;
-    }
-    .stage .label{
-      position:absolute;
-      top:12px; right:12px; left:12px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      z-index:5;
-      pointer-events:none;
-    }
-    .cap, .count{
-      background: rgba(255,255,255,.78);
-      border:1px solid var(--border);
-      padding:8px 10px;
-      border-radius:999px;
-      font-size:12px;
-    }
-    .cap{
-      font-weight:950;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-      max-width: 75%;
-    }
-    .count{ color: var(--muted); }
+.topHeader hr{
+  border:0;
+  border-top:1px solid rgba(17,24,39,.08);
+  margin:16px auto 0;
+  width:min(680px,92%);
+}
 
-    .viewer{
-      position:absolute;
-      inset:0;
-      padding:12px;
-      display:grid;
-      place-items:center;
-    }
-    .viewer img, .viewer video, .viewer iframe{
-      width:100%;
-      height:100%;
-      border:0;
-      border-radius: 14px;
-      object-fit:cover;
-      background:#000;
-    }
+/* ===== الشبكة ===== */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
 
-    .dots{
-      display:flex;
-      justify-content:center;
-      gap:8px;
-      flex-wrap:wrap;
-      padding: 2px 0 0;
-    }
-    .dot{
-      width:10px;height:10px;
-      border-radius:999px;
-      border:1px solid rgba(17,24,39,.20);
-      background: rgba(255,255,255,.85);
-      cursor:pointer;
-      transition: .12s ease;
-    }
-    .dot.active{
-      width:26px;
-      background: linear-gradient(135deg,var(--p1),var(--p2));
-      border-color: rgba(124,92,255,.35);
-    }
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  min-height:520px;
+}
 
-    .controls{
-      display:flex;
-      gap:10px;
-      margin-top:2px;
-    }
-    .chip{
-      flex:1;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.90);
-      border-radius:999px;
-      padding:10px 12px;
-      font-weight:950;
-      cursor:pointer;
-      user-select:none;
-    }
-    .chip:active{ transform: scale(.98); }
+/* ===== الهوية المهنية (يمين) ===== */
+.identityWrap{
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  height:100%;
+}
 
-    /* ===== بطاقة الهوية المهنية (يمين) ===== */
-    .identityWrap{
-      padding:18px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-      height:100%;
-    }
-    .identityTitle{
-      text-align:center;
-      font-size:24px;
-      font-weight:1000;
-      margin:0;
-    }
-    .vision{
-      background: rgba(255,255,255,.70);
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:14px;
-      line-height:2;
-      font-size:14.5px;
-      color: rgba(17,24,39,.90);
-      text-align:center;
-    }
+.identityWrap h2{
+  text-align:center;
+  font-size:24px;
+  font-weight:1000;
+  margin:0;
+}
 
-    .icons{
-      margin-top:auto;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:14px;
-    }
+.vision{
+  background:rgba(255,255,255,.7);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:14px;
+  font-size:14.5px;
+  line-height:2;
+  text-align:center;
+}
 
-    .iconBtn{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:14px 14px;
-      border-radius:18px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.90);
-      text-decoration:none;
-      color:var(--text);
-      transition: transform .15s ease, box-shadow .15s ease;
-      min-height:76px;
-    }
-    .iconBtn:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 12px 24px rgba(0,0,0,.12);
-    }
+.icons{
+  margin-top:auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
 
-    .iconBtn .txt{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      min-width:0;
-    }
-    .iconBtn .t{
-      font-weight:1000;
-      font-size:14px;
-      line-height:1.2;
-    }
-    .iconBtn .d{
-      font-size:12px;
-      color:var(--muted);
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-      max-width: 240px;
-    }
+.iconBtn{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px;
+  border-radius:18px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.9);
+  text-decoration:none;
+  color:var(--text);
+}
 
-    .iconBubble{
-      width:44px;height:44px;
-      border-radius:16px;
-      display:grid;
-      place-items:center;
-      color:#fff;
-      font-size:20px;
-      flex:0 0 auto;
-      box-shadow: 0 10px 18px rgba(0,0,0,.12);
-    }
+.iconBubble{
+  width:44px;
+  height:44px;
+  border-radius:16px;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font-size:20px;
+}
 
-    /* ألوان الفقاعات */
-    .g1{ background: linear-gradient(135deg,var(--p1),var(--p5)); }
-    .g2{ background: linear-gradient(135deg,var(--p2),var(--p1)); }
-    .g3{ background: linear-gradient(135deg,var(--p4),#3b82f6); }
-    .g4{ background: linear-gradient(135deg,var(--p3),var(--p4)); }
+.g1{background:linear-gradient(135deg,var(--p1),var(--p5))}
+.g2{background:linear-gradient(135deg,var(--p2),var(--p1))}
+.g3{background:linear-gradient(135deg,var(--p4),#3b82f6)}
+.g4{background:linear-gradient(135deg,var(--p3),var(--p4))}
 
-    .foot{
-      text-align:center;
-      padding: 12px 16px;
-      color: var(--muted);
-      font-size: 12px;
-      border-top:1px solid var(--border);
-      background: rgba(255,255,255,.45);
-    }
+/* ===== السلايدر (يسار) ===== */
+.mediaWrap{
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  height:100%;
+}
 
-    @media (max-width: 900px){
-      .grid{ grid-template-columns: 1fr; }
-      .card{ min-height: 520px; }
-    }
-  </style>
+.stage{
+  position:relative;
+  flex:1;
+  border-radius:18px;
+  border:1px solid var(--border);
+  background:#fff; /* مهم */
+  overflow:hidden;
+}
+
+.viewer{
+  position:absolute;
+  inset:0;
+  padding:12px;
+  display:grid;
+  place-items:center;
+}
+
+/* ⭐ الحل هنا */
+.viewer iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  background:#fff !important;
+}
+
+.viewer img,
+.viewer video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:14px;
+}
+
+.dots{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  border:1px solid rgba(0,0,0,.2);
+  cursor:pointer;
+}
+
+.dot.active{
+  width:26px;
+  border-radius:999px;
+  background:linear-gradient(135deg,var(--p1),var(--p2));
+}
+
+.controls{
+  display:flex;
+  gap:10px;
+}
+
+.controls button{
+  flex:1;
+  padding:10px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:#fff;
+  font-weight:900;
+}
+
+.foot{
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);
+  padding:12px;
+  border-top:1px solid var(--border);
+}
+
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 
 <body>
-  <div class="wrap">
+<div class="wrap">
 
-    <!-- ✅ الهيدر العام -->
-    <header class="topHeader">
-      <h1>نوف خبتي</h1>
-      <p>معلمة فيزياء ومبادِرة تعليمية، أؤمن بأن التعلم العميق يصنع أثرًا مستدامًا.</p>
-      <hr>
-    </header>
+<header class="topHeader">
+  <h1>نوف خبتي</h1>
+  <p>معلمة فيزياء ومبادِرة تعليمية، أؤمن بأن التعلم العميق يصنع أثرًا مستدامًا.</p>
+  <hr>
+</header>
 
-    <!-- ✅ الترتيب هنا هو اللي يحدد يمين/يسار في RTL -->
-    <main class="grid">
+<main class="grid">
 
-      <!-- ✅ 1) يمين: الهوية المهنية (أول عنصر = يمين) -->
-      <section class="card">
-        <div class="identityWrap">
-          <h2 class="identityTitle">الهوية المهنية</h2>
+  <!-- الهوية المهنية -->
+  <section class="card">
+    <div class="identityWrap">
+      <h2>الهوية المهنية</h2>
+      <div class="vision">
+        تتشكل رؤيتي من فلسفة تربوية تُعلي قيمة الفهم والمعنى، وتدعمها ممارسات تدريسية تُحسن التعلم
+        وتُفعل الحوار والتفكير الناقد، وتستثمر التغذية الراجعة والبيانات لتجويد المخرجات.
+      </div>
+      <div class="icons" id="icons"></div>
+    </div>
+    <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
+  </section>
 
-          <div class="vision">
-            تتشكل رؤيتي من فلسفة تربوية تُعلي قيمة الفهم والمعنى، وتدعمها ممارسات تدريسية تُحسن التعلم
-            وتُفعل الحوار والتفكير الناقد، وتستثمر التغذية الراجعة والبيانات لتجويد المخرجات؛ بما يصنع
-            طالبة واثقة، مسؤولة، وقادرة على اتخاذ قرارها المعرفي.
-          </div>
+  <!-- السلايدر -->
+  <section class="card">
+    <div class="mediaWrap">
+      <div class="stage">
+        <div class="viewer" id="viewer"></div>
+      </div>
+      <div class="dots" id="dots"></div>
+      <div class="controls">
+        <button onclick="prev()">السابق</button>
+        <button onclick="toggle()">إيقاف</button>
+        <button onclick="next()">التالي</button>
+      </div>
+    </div>
+    <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
+  </section>
 
-          <div class="icons" id="icons"></div>
-        </div>
-
-        <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
-      </section>
-
-      <!-- ✅ 2) يسار: السلايدر (ثاني عنصر = يسار) -->
-      <section class="card">
-        <div class="mediaWrap">
-          <div class="stage">
-            <div class="label">
-              <div class="cap" id="caption">—</div>
-              <div class="count" id="counter">0/0</div>
-            </div>
-            <div class="viewer" id="viewer"></div>
-          </div>
-
-          <div class="dots" id="dots"></div>
-
-          <div class="controls">
-            <button class="chip" id="prevBtn">⟵ السابق</button>
-            <button class="chip" id="toggleBtn">⏸️ إيقاف</button>
-            <button class="chip" id="nextBtn">التالي ⟶</button>
-          </div>
-        </div>
-
-        <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
-      </section>
-
-    </main>
-  </div>
+</main>
+</div>
 
 <script>
-  // ===== روابط CSV =====
-  const LINKS_CSV_URL =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQaN3UjaCfxytCPsU6tVG3q4Doq5MzAga4eN9DNn7CXHO2AgikUq0F3PggFNgMub2C2if6LoRuRDRoD/pub?output=csv";
+const MEDIA = [
+  "https://drive.google.com/file/d/1giICP1ZHOiY4uR083VfTR_COSJUKYf2d/preview",
+  "https://drive.google.com/file/d/1-viMbM-dVghJf8DQaZ1MJKUQvQjdoP4K/preview"
+];
 
-  const MEDIA_CSV_URL =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEHayG4LZPyitS9dWgRweARkU4gWhGc0vxUFjZbOan32ZG6B9zSYpAKd02bE2nkysvXoIC3EH-iN4O/pub?output=csv";
+let i=0,play=true,t;
 
-  const INTERVAL_MS = 7000;
+const v=document.getElementById("viewer");
+const d=document.getElementById("dots");
 
-  // ===== CSV parser يدعم الاقتباس =====
-  function splitCSVLine(line){
-    const res = [];
-    let cur="", inQ=false;
-    for(let i=0;i<line.length;i++){
-      const ch=line[i];
-      if(ch === '"'){
-        if(inQ && line[i+1] === '"'){ cur+='"'; i++; }
-        else inQ=!inQ;
-      } else if(ch === ',' && !inQ){
-        res.push(cur); cur="";
-      } else cur+=ch;
-    }
-    res.push(cur);
-    return res.map(s=>s.trim());
-  }
+MEDIA.forEach((_,x)=>{
+  const dot=document.createElement("div");
+  dot.className="dot";
+  dot.onclick=()=>go(x);
+  d.appendChild(dot);
+});
 
-  function parseCSV(text){
-    const lines = text.trim().split(/\r?\n/);
-    if(lines.length <= 1) return {header:[], rows:[]};
-    const header = splitCSVLine(lines[0]).map(s=>s.toLowerCase());
-    const rows = [];
-    for(let i=1;i<lines.length;i++){
-      const row = splitCSVLine(lines[i]);
-      if(row.join("").trim()==="") continue;
-      rows.push(row);
-    }
-    return {header, rows};
-  }
+function go(x){
+  i=x;
+  document.querySelectorAll(".dot").forEach((e,j)=>e.classList.toggle("active",j===i));
+  v.innerHTML=`<iframe src="${MEDIA[i]}"></iframe>`;
+}
 
-  function col(header, name){
-    return header.indexOf(name.toLowerCase());
-  }
+function next(){go((i+1)%MEDIA.length)}
+function prev(){go((i-1+MEDIA.length)%MEDIA.length)}
+function toggle(){play=!play}
 
-  function escapeHTML(s){
-    return String(s||"")
-      .replaceAll("&","&amp;").replaceAll("<","&lt;")
-      .replaceAll(">","&gt;").replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
-  }
+function auto(){
+  if(play) next();
+}
+t=setInterval(auto,7000);
 
-  // ===== (A) الأيقونات 2×2 من شيت الروابط =====
-  const iconsEl = document.getElementById("icons");
-
-  async function loadIcons(){
-    try{
-      const r = await fetch(LINKS_CSV_URL, {cache:"no-store"});
-      const t = await r.text();
-      const {header, rows} = parseCSV(t);
-
-      const tI = col(header, "title");
-      const uI = col(header, "url");
-      const iI = col(header, "icon");
-      const dI = col(header, "desc");
-
-      const links = rows.map(row => ({
-        title: (row[tI]||"").trim(),
-        url:   (row[uI]||"").trim(),
-        icon:  (row[iI]||"🔗").trim(),
-        desc:  (row[dI]||"").trim()
-      })).filter(x => x.title && x.url).slice(0,4);
-
-      iconsEl.innerHTML = "";
-      const bubbleClasses = ["g1","g2","g3","g4"];
-
-      links.forEach((L, idx) => {
-        const a = document.createElement("a");
-        a.className = "iconBtn";
-        a.href = L.url;
-        a.target = "_blank";
-        a.rel = "noopener";
-
-        a.innerHTML = `
-          <div class="txt">
-            <div class="t">${escapeHTML(L.title)}</div>
-            <div class="d">${escapeHTML(L.desc || "")}</div>
-          </div>
-          <div class="iconBubble ${bubbleClasses[idx % 4]}">${escapeHTML(L.icon)}</div>
-        `;
-        iconsEl.appendChild(a);
-      });
-
-    }catch(e){
-      iconsEl.innerHTML = `<div style="grid-column:1/-1;color:#ef4444;font-weight:900;text-align:center;">تعذر قراءة شيت الروابط</div>`;
-    }
-  }
-
-  // ===== (B) السلايدر + نقاط =====
-  const viewer = document.getElementById("viewer");
-  const dotsEl = document.getElementById("dots");
-  const captionEl = document.getElementById("caption");
-  const counterEl = document.getElementById("counter");
-
-  const prevBtn = document.getElementById("prevBtn");
-  const nextBtn = document.getElementById("nextBtn");
-  const toggleBtn = document.getElementById("toggleBtn");
-
-  let mediaItems = [];
-  let idx = 0;
-  let timer = null;
-  let playing = true;
-
-  function buildDots(){
-    dotsEl.innerHTML = "";
-    mediaItems.forEach((_, i) => {
-      const b = document.createElement("button");
-      b.className = "dot";
-      b.type = "button";
-      b.addEventListener("click", () => goTo(i, true));
-      dotsEl.appendChild(b);
-    });
-    updateDots();
-  }
-
-  function updateDots(){
-    const dots = dotsEl.querySelectorAll(".dot");
-    dots.forEach((d,i)=> d.classList.toggle("active", i===idx));
-  }
-
-  function render(){
-    if(!mediaItems.length){
-      viewer.innerHTML = `<div style="color:#6b7280;font-weight:900;text-align:center;">لا توجد وسائط</div>`;
-      captionEl.textContent = "—";
-      counterEl.textContent = "0/0";
-      dotsEl.innerHTML = "";
-      return;
-    }
-
-    const it = mediaItems[idx];
-    captionEl.textContent = it.title || "—";
-    counterEl.textContent = `${idx+1}/${mediaItems.length}`;
-    updateDots();
-
-    viewer.innerHTML = "";
-    if(it.type === "image"){
-      const img = document.createElement("img");
-      img.src = it.url;
-      img.alt = it.title || "image";
-      viewer.appendChild(img);
-    } else if(it.type === "video"){
-      const v = document.createElement("video");
-      v.src = it.url;
-      v.autoplay = true;
-      v.muted = true;
-      v.loop = true;
-      v.playsInline = true;
-      v.controls = false;
-      viewer.appendChild(v);
-    } else if(it.type === "iframe"){
-      const f = document.createElement("iframe");
-      f.src = it.url; // بدون تحويل
-      f.allow = "autoplay; encrypted-media; picture-in-picture";
-      f.referrerPolicy = "strict-origin-when-cross-origin";
-      viewer.appendChild(f);
-    } else {
-      viewer.innerHTML = `<div style="color:#6b7280;font-weight:900;text-align:center;">نوع غير معروف: ${escapeHTML(it.type)}</div>`;
-    }
-  }
-
-  function goTo(newIdx, fromUser=false){
-    if(!mediaItems.length) return;
-    idx = (newIdx + mediaItems.length) % mediaItems.length;
-    render();
-    if(fromUser) start();
-  }
-
-  function start(){
-    stop();
-    timer = setInterval(()=>{ if(playing) goTo(idx+1, false); }, INTERVAL_MS);
-  }
-  function stop(){
-    if(timer){ clearInterval(timer); timer=null; }
-  }
-
-  async function loadMedia(){
-    try{
-      const r = await fetch(MEDIA_CSV_URL, {cache:"no-store"});
-      const t = await r.text();
-      const {header, rows} = parseCSV(t);
-
-      const tI = col(header, "type");
-      const uI = col(header, "url");
-      const cI = col(header, "title");
-
-      mediaItems = rows.map(row => ({
-        type: (row[tI]||"").trim().toLowerCase(),
-        url:  (row[uI]||"").trim(),
-        title:(row[cI]||"").trim()
-      })).filter(x => x.type && x.url);
-
-      idx = 0;
-      buildDots();
-      render();
-      start();
-    }catch(e){
-      viewer.innerHTML = `<div style="color:#ef4444;font-weight:900;text-align:center;">تعذر قراءة شيت الوسائط</div>`;
-      dotsEl.innerHTML = "";
-    }
-  }
-
-  prevBtn.addEventListener("click", ()=> goTo(idx-1, true));
-  nextBtn.addEventListener("click", ()=> goTo(idx+1, true));
-  toggleBtn.addEventListener("click", ()=>{
-    playing = !playing;
-    toggleBtn.textContent = playing ? "⏸️ إيقاف" : "▶️ تشغيل";
-  });
-
-  loadIcons();
-  loadMedia();
+go(0);
 </script>
 </body>
 </html>
