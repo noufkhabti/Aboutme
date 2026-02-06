@@ -7,27 +7,16 @@
 
 <style>
 :root{
-  --bg1:#fff3fb;
-  --bg2:#f1fff6;
-  --bg3:#f3f6ff;
-
+  --bg1:#fff3fb; --bg2:#f1fff6; --bg3:#f3f6ff;
   --card: rgba(255,255,255,.82);
   --border: rgba(17,24,39,.10);
-  --text:#111827;
-  --muted:#6b7280;
-
+  --text:#111827; --muted:#6b7280;
   --shadow: 0 18px 40px rgba(0,0,0,.10);
   --radius: 22px;
-
-  --p1:#ff5ea8;
-  --p2:#7c5cff;
-  --p3:#22c55e;
-  --p4:#06b6d4;
-  --p5:#f59e0b;
+  --p1:#ff5ea8; --p2:#7c5cff; --p3:#22c55e; --p4:#06b6d4; --p5:#f59e0b;
 }
 
 *{box-sizing:border-box}
-
 body{
   margin:0;
   font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial;
@@ -41,15 +30,8 @@ body{
   justify-content:center;
   padding:26px 18px;
 }
+.wrap{ width:min(1120px,100%); display:flex; flex-direction:column; gap:18px; }
 
-.wrap{
-  width:min(1120px,100%);
-  display:flex;
-  flex-direction:column;
-  gap:18px;
-}
-
-/* ===== الهيدر العام ===== */
 .topHeader{
   text-align:center;
   background:var(--card);
@@ -58,35 +40,11 @@ body{
   box-shadow:var(--shadow);
   padding:22px 18px;
 }
+.topHeader h1{ margin:0; font-size:30px; font-weight:1000; }
+.topHeader p{ margin-top:8px; font-size:14px; color:rgba(17,24,39,.75); line-height:1.8; font-weight:700; }
+.topHeader hr{ border:0; border-top:1px solid rgba(17,24,39,.08); margin:16px auto 0; width:min(680px,92%); }
 
-.topHeader h1{
-  margin:0;
-  font-size:30px;
-  font-weight:1000;
-}
-
-.topHeader p{
-  margin-top:8px;
-  font-size:14px;
-  color:rgba(17,24,39,.75);
-  line-height:1.8;
-  font-weight:700;
-}
-
-.topHeader hr{
-  border:0;
-  border-top:1px solid rgba(17,24,39,.08);
-  margin:16px auto 0;
-  width:min(680px,92%);
-}
-
-/* ===== الشبكة ===== */
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-}
-
+.grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
 .card{
   background:var(--card);
   border:1px solid var(--border);
@@ -98,22 +56,8 @@ body{
   min-height:520px;
 }
 
-/* ===== الهوية المهنية (يمين) ===== */
-.identityWrap{
-  padding:18px;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  height:100%;
-}
-
-.identityWrap h2{
-  text-align:center;
-  font-size:24px;
-  font-weight:1000;
-  margin:0;
-}
-
+.identityWrap{ padding:18px; display:flex; flex-direction:column; gap:14px; height:100%; }
+.identityWrap h2{ text-align:center; font-size:24px; font-weight:1000; margin:0; }
 .vision{
   background:rgba(255,255,255,.7);
   border:1px solid var(--border);
@@ -124,213 +68,104 @@ body{
   text-align:center;
 }
 
-/* ===== أيقونات 2×2 ===== */
-.icons{
-  margin-top:auto;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-
+/* أيقونات 2×2 */
+.icons{ margin-top:auto; display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 .iconBtn{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:14px;
-  border-radius:18px;
-  border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:14px; border-radius:18px; border:1px solid var(--border);
   background:rgba(255,255,255,.9);
-  text-decoration:none;
-  color:var(--text);
+  text-decoration:none; color:var(--text);
   min-height:76px;
   transition:transform .15s ease, box-shadow .15s ease;
 }
-.iconBtn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 12px 24px rgba(0,0,0,.12);
-}
-
+.iconBtn:hover{ transform:translateY(-2px); box-shadow:0 12px 24px rgba(0,0,0,.12); }
 .iconTxt{ display:flex; flex-direction:column; gap:4px; min-width:0; }
 .iconTxt .t{ font-weight:1000; font-size:14px; line-height:1.2; }
 .iconTxt .d{ font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:230px; }
-
 .iconBubble{
-  width:44px;
-  height:44px;
-  border-radius:16px;
-  display:grid;
-  place-items:center;
-  color:#fff;
-  font-size:20px;
-  flex:0 0 auto;
-  box-shadow: 0 10px 18px rgba(0,0,0,.12);
+  width:44px; height:44px; border-radius:16px;
+  display:grid; place-items:center; color:#fff; font-size:20px; flex:0 0 auto;
+  box-shadow:0 10px 18px rgba(0,0,0,.12);
 }
-
 .g1{background:linear-gradient(135deg,var(--p1),var(--p5))}
 .g2{background:linear-gradient(135deg,var(--p2),var(--p1))}
 .g3{background:linear-gradient(135deg,var(--p4),#3b82f6)}
 .g4{background:linear-gradient(135deg,var(--p3),var(--p4))}
 
-/* ===== السلايدر (يسار) ===== */
-.mediaWrap{
-  padding:16px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  height:100%;
-}
-
+/* السلايدر */
+.mediaWrap{ padding:16px; display:flex; flex-direction:column; gap:12px; height:100%; }
 .stage{
-  position:relative;
-  flex:1;
-  border-radius:18px;
-  border:1px solid var(--border);
-  background:#fff;
-  overflow:hidden;
+  position:relative; flex:1;
+  border-radius:18px; border:1px solid var(--border);
+  background:#fff; overflow:hidden;
 }
 
-/* ===== عنوان السلايد + عدّاد ===== */
+/* عنوان + عداد */
 .caption{
-  position:absolute;
-  top:12px;
-  right:12px;
-  left:12px;
-  z-index:6;
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
+  position:absolute; top:12px; right:12px; left:12px;
+  z-index:6; display:flex; justify-content:space-between; gap:10px;
   pointer-events:none;
 }
-
 .capPill{
   max-width:70%;
-  background: rgba(255,255,255,.88);
+  background:rgba(255,255,255,.88);
   border:1px solid rgba(0,0,0,.10);
-  padding:8px 12px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:950;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  padding:8px 12px; border-radius:999px;
+  font-size:12px; font-weight:950;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 
-  opacity:0;
-  transform: translateY(-8px);
-  transition: .35s ease;
+  opacity:0; transform:translateY(-8px);
+  transition:.35s ease;
 }
-.capPill.show{ opacity:1; transform: translateY(0); }
+.capPill.show{ opacity:1; transform:translateY(0); }
 
 .counter{
-  background: rgba(255,255,255,.88);
+  background:rgba(255,255,255,.88);
   border:1px solid rgba(0,0,0,.10);
-  padding:8px 10px;
-  border-radius:999px;
-  font-size:12px;
-  color:var(--muted);
+  padding:8px 10px; border-radius:999px;
+  font-size:12px; color:var(--muted);
   white-space:nowrap;
 }
 
-/* ===== Skeleton ===== */
-.skeleton{
-  position:absolute;
-  inset:0;
-  padding:12px;
-  z-index:5;
-  display:none;
-}
+/* Skeleton */
+.skeleton{ position:absolute; inset:0; padding:12px; z-index:5; display:none; }
 .stage.loading .skeleton{ display:block; }
-
 .skeletonBox{
-  width:100%;
-  height:100%;
+  width:100%; height:100%;
   border-radius:14px;
   border:1px solid rgba(17,24,39,.08);
-  background: linear-gradient(90deg,
-    rgba(240,240,245,.75) 0%,
-    rgba(255,255,255,.95) 45%,
-    rgba(240,240,245,.75) 100%);
-  background-size: 200% 100%;
-  animation: shimmer 1.2s infinite linear;
+  background:linear-gradient(90deg, rgba(240,240,245,.75) 0%, rgba(255,255,255,.95) 45%, rgba(240,240,245,.75) 100%);
+  background-size:200% 100%;
+  animation:shimmer 1.2s infinite linear;
 }
-@keyframes shimmer{
-  0%{ background-position: 200% 0; }
-  100%{ background-position: -200% 0; }
-}
+@keyframes shimmer{ 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-.viewer{
-  position:absolute;
-  inset:0;
-  padding:12px;
-  display:grid;
-  place-items:center;
-}
+.viewer{ position:absolute; inset:0; padding:12px; display:grid; place-items:center; }
+.viewer iframe{ width:100%; height:100%; border:0; border-radius:14px; background:#fff !important; }
+.viewer img,.viewer video{ width:100%; height:100%; object-fit:cover; border-radius:14px; background:#fff; }
 
-.viewer iframe{
-  width:100%;
-  height:100%;
-  border:0;
-  border-radius:14px;
-  background:#fff !important;
-}
+.dots{ display:flex; justify-content:center; gap:8px; flex-wrap:wrap; }
+.dot{ width:10px; height:10px; border-radius:50%; border:1px solid rgba(0,0,0,.2); cursor:pointer; background:rgba(255,255,255,.9); }
+.dot.active{ width:26px; border-radius:999px; background:linear-gradient(135deg,var(--p1),var(--p2)); }
 
-.viewer img,
-.viewer video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:14px;
-  background:#fff;
-}
-
-.dots{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  border:1px solid rgba(0,0,0,.2);
-  cursor:pointer;
-  background: rgba(255,255,255,.9);
-}
-
-.dot.active{
-  width:26px;
-  border-radius:999px;
-  background:linear-gradient(135deg,var(--p1),var(--p2));
-}
-
-.controls{
-  display:flex;
-  gap:10px;
-}
-
+.controls{ display:flex; gap:10px; }
 .controls button{
-  flex:1;
-  padding:10px;
-  border-radius:999px;
-  border:1px solid var(--border);
-  background:#fff;
-  font-weight:900;
-  cursor:pointer;
+  flex:1; padding:10px;
+  border-radius:999px; border:1px solid var(--border);
+  background:#fff; font-weight:900; cursor:pointer;
 }
 
-.foot{
+.status{
   text-align:center;
-  font-size:12px;
   color:var(--muted);
-  padding:12px;
-  border-top:1px solid var(--border);
+  font-weight:900;
+  font-size:12px;
+  margin-top:-4px;
 }
 
-@media(max-width:900px){
-  .grid{grid-template-columns:1fr}
-}
+.foot{ text-align:center; font-size:12px; color:var(--muted); padding:12px; border-top:1px solid var(--border); }
+
+@media(max-width:900px){ .grid{grid-template-columns:1fr} }
 </style>
 </head>
 
@@ -345,7 +180,7 @@ body{
 
 <main class="grid">
 
-  <!-- الهوية المهنية -->
+  <!-- يمين -->
   <section class="card">
     <div class="identityWrap">
       <h2>الهوية المهنية</h2>
@@ -353,40 +188,33 @@ body{
         تتشكل رؤيتي من فلسفة تربوية تُعلي قيمة الفهم والمعنى، وتدعمها ممارسات تدريسية تُحسن التعلم
         وتُفعل الحوار والتفكير الناقد، وتستثمر التغذية الراجعة والبيانات لتجويد المخرجات.
       </div>
-
-      <!-- ✅ الأيقونات تُقرأ من الشيت -->
       <div class="icons" id="icons"></div>
     </div>
     <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
   </section>
 
-  <!-- السلايدر -->
+  <!-- يسار -->
   <section class="card">
     <div class="mediaWrap">
       <div class="stage" id="stage">
-
-        <!-- ✅ عنوان الصورة من الشيت + عدّاد -->
         <div class="caption">
           <div class="capPill" id="capText">—</div>
           <div class="counter" id="countText">0/0</div>
         </div>
 
-        <!-- ✅ Skeleton -->
-        <div class="skeleton">
-          <div class="skeletonBox"></div>
-        </div>
-
+        <div class="skeleton"><div class="skeletonBox"></div></div>
         <div class="viewer" id="viewer"></div>
       </div>
 
       <div class="dots" id="dots"></div>
-
       <div class="controls">
         <button id="prevBtn">السابق</button>
         <button id="toggleBtn">إيقاف</button>
         <button id="nextBtn">التالي</button>
       </div>
+      <div class="status" id="status">جاري التحميل…</div>
     </div>
+
     <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
   </section>
 
@@ -394,20 +222,19 @@ body{
 </div>
 
 <script>
-/* ✅ شيت الروابط للأيقونات (title,url,icon,desc) */
+/* شيت الروابط للأيقونات (title,url,icon,desc) */
 const LINKS_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQaN3UjaCfxytCPsU6tVG3q4Doq5MzAga4eN9DNn7CXHO2AgikUq0F3PggFNgMub2C2if6LoRuRDRoD/pub?output=csv";
 
-/* ✅ شيت الوسائط للسلايدر (type,url,title) */
+/* شيت الوسائط (type,url,title) */
 const MEDIA_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEHayG4LZPyitS9dWgRweARkU4gWhGc0vxUFjZbOan32ZG6B9zSYpAKd02bE2nkysvXoIC3EH-iN4O/pub?output=csv";
 
 const INTERVAL_MS = 7000;
 
-/* ===== CSV parser يدعم الاقتباس والفواصل ===== */
+/* CSV parser (مع BOM) */
 function splitCSVLine(line){
-  const res = [];
-  let cur="", inQ=false;
+  const res=[]; let cur="", inQ=false;
   for(let i=0;i<line.length;i++){
     const ch=line[i];
     if(ch === '"'){
@@ -421,28 +248,33 @@ function splitCSVLine(line){
   return res.map(s=>s.trim());
 }
 function parseCSV(text){
-  const lines = text.trim().split(/\r?\n/).filter(l=>l.trim()!=="");
+  const clean = (text || "").replace(/^\uFEFF/, ""); // ✅ BOM
+  const lines = clean.trim().split(/\r?\n/).filter(l=>l.trim()!=="");
   if(lines.length < 2) return {header:[], rows:[]};
-  const header = splitCSVLine(lines[0]).map(h=>h.toLowerCase());
+  const header = splitCSVLine(lines[0]).map(h => (h||"").toLowerCase().trim().replace(/^\uFEFF/,""));
   const rows = lines.slice(1).map(splitCSVLine);
   return {header, rows};
 }
-function col(header,name){ return header.indexOf(name.toLowerCase()); }
+function colAny(header, names){
+  for(const n of names){
+    const idx = header.indexOf(n.toLowerCase());
+    if(idx !== -1) return idx;
+  }
+  return -1;
+}
 function esc(s){
   return String(s||"")
     .replaceAll("&","&amp;").replaceAll("<","&lt;")
     .replaceAll(">","&gt;").replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
 }
-
-/* ===== Drive -> preview ===== */
 function toDrivePreview(url){
-  const m = url.match(/drive\.google\.com\/file\/d\/([^/]+)/i);
+  const m = String(url||"").match(/drive\.google\.com\/file\/d\/([^/]+)/i);
   if(!m) return url;
   return `https://drive.google.com/file/d/${m[1]}/preview`;
 }
 
-/* ===== تحميل أيقونات 2×2 من الشيت ===== */
+/* أيقونات */
 async function loadIcons(){
   const iconsEl = document.getElementById("icons");
   try{
@@ -450,10 +282,10 @@ async function loadIcons(){
     const t = await r.text();
     const {header, rows} = parseCSV(t);
 
-    const tI = col(header,"title");
-    const uI = col(header,"url");
-    const iI = col(header,"icon");
-    const dI = col(header,"desc");
+    const tI = colAny(header, ["title","العنوان"]);
+    const uI = colAny(header, ["url","link","رابط"]);
+    const iI = colAny(header, ["icon","أيقونة"]);
+    const dI = colAny(header, ["desc","description","وصف"]);
 
     const items = rows.map(row=>({
       title:(row[tI]||"").trim(),
@@ -462,19 +294,17 @@ async function loadIcons(){
       desc:(row[dI]||"").trim(),
     })).filter(x=>x.title && x.url).slice(0,4);
 
-    iconsEl.innerHTML = "";
-    const bubbles = ["g1","g2","g3","g4"];
+    iconsEl.innerHTML="";
+    const bubbles=["g1","g2","g3","g4"];
 
     items.forEach((it, idx)=>{
-      const a = document.createElement("a");
-      a.className = "iconBtn";
-      a.href = it.url;
-      a.target = "_blank";
-      a.rel = "noopener";
-      a.innerHTML = `
+      const a=document.createElement("a");
+      a.className="iconBtn";
+      a.href=it.url; a.target="_blank"; a.rel="noopener";
+      a.innerHTML=`
         <div class="iconTxt">
           <div class="t">${esc(it.title)}</div>
-          <div class="d">${esc(it.desc || "")}</div>
+          <div class="d">${esc(it.desc||"")}</div>
         </div>
         <div class="iconBubble ${bubbles[idx%4]}">${esc(it.icon)}</div>
       `;
@@ -482,45 +312,40 @@ async function loadIcons(){
     });
 
     if(!items.length){
-      iconsEl.innerHTML = `<div style="grid-column:1/-1;color:#6b7280;font-weight:900;text-align:center;">شيت الروابط فارغ</div>`;
+      iconsEl.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#6b7280;font-weight:900;">شيت الروابط فارغ</div>`;
     }
   }catch(e){
-    iconsEl.innerHTML = `<div style="grid-column:1/-1;color:#ef4444;font-weight:900;text-align:center;">تعذر قراءة شيت الروابط</div>`;
+    iconsEl.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#ef4444;font-weight:900;">تعذر قراءة شيت الروابط</div>`;
   }
 }
 
-/* ===== السلايدر من الشيت (عنوان + Skeleton) ===== */
-let MEDIA = [];
-let i = 0;
-let play = true;
-let timer = null;
+/* سلايدر */
+let MEDIA=[]; let i=0; let play=true; let timer=null;
 
-const stage = document.getElementById("stage");
-const viewer = document.getElementById("viewer");
-const dots = document.getElementById("dots");
-const cap = document.getElementById("capText");
-const count = document.getElementById("countText");
+const stage=document.getElementById("stage");
+const viewer=document.getElementById("viewer");
+const dots=document.getElementById("dots");
+const cap=document.getElementById("capText");
+const count=document.getElementById("countText");
+const status=document.getElementById("status");
+const prevBtn=document.getElementById("prevBtn");
+const nextBtn=document.getElementById("nextBtn");
+const toggleBtn=document.getElementById("toggleBtn");
 
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
-const toggleBtn = document.getElementById("toggleBtn");
-
-function showSkeleton(on){
-  stage.classList.toggle("loading", !!on);
-}
+function showSkeleton(on){ stage.classList.toggle("loading", !!on); }
 
 function setCaption(text){
   cap.classList.remove("show");
-  cap.textContent = text || "—";
+  cap.textContent = (text && text.trim()) ? text.trim() : "بدون عنوان";
   requestAnimationFrame(()=> cap.classList.add("show"));
 }
 
 function buildDots(){
-  dots.innerHTML = "";
+  dots.innerHTML="";
   MEDIA.forEach((_,x)=>{
-    const dot = document.createElement("div");
-    dot.className = "dot";
-    dot.onclick = ()=> go(x, true);
+    const dot=document.createElement("div");
+    dot.className="dot";
+    dot.onclick=()=>go(x,true);
     dots.appendChild(dot);
   });
 }
@@ -534,49 +359,41 @@ function go(x, manual=false){
     .forEach((e,j)=>e.classList.toggle("active", j===i));
 
   const item = MEDIA[i];
-
-  // ✅ عنوان من الشيت
   setCaption(item.title);
   count.textContent = `${i+1}/${MEDIA.length}`;
+  status.textContent = `تم تحميل البيانات: ${MEDIA.length} عنصر`;
 
-  // ✅ Skeleton ON
   showSkeleton(true);
+  viewer.innerHTML="";
 
-  // عرض العنصر
-  viewer.innerHTML = "";
+  const type = (item.type || "iframe").toLowerCase();
 
-  if(item.type === "image"){
-    const img = document.createElement("img");
-    img.src = item.url;
-    img.alt = item.title || "image";
-    img.onload = () => showSkeleton(false);
-    img.onerror = () => {
+  if(type === "image"){
+    const img=document.createElement("img");
+    img.src=item.url;
+    img.alt=item.title || "image";
+    img.onload=()=>showSkeleton(false);
+    img.onerror=()=>{
       // fallback: iframe
-      const f = document.createElement("iframe");
-      f.src = item.url;
-      f.onload = () => showSkeleton(false);
-      viewer.innerHTML = "";
+      const f=document.createElement("iframe");
+      f.src=item.url;
+      f.onload=()=>showSkeleton(false);
+      viewer.innerHTML="";
       viewer.appendChild(f);
     };
     viewer.appendChild(img);
-  }
-  else if(item.type === "video"){
-    const v = document.createElement("video");
-    v.src = item.url;
-    v.autoplay = true;
-    v.muted = true;
-    v.loop = true;
-    v.playsInline = true;
-    v.onloadeddata = () => showSkeleton(false);
-    v.onerror = () => showSkeleton(false);
+  } else if(type === "video"){
+    const v=document.createElement("video");
+    v.src=item.url;
+    v.autoplay=true; v.muted=true; v.loop=true; v.playsInline=true;
+    v.onloadeddata=()=>showSkeleton(false);
+    v.onerror=()=>showSkeleton(false);
     viewer.appendChild(v);
-  }
-  else{
-    // iframe (Drive preview / YouTube embed)
-    const f = document.createElement("iframe");
-    f.src = item.url;
-    f.onload = () => showSkeleton(false);
-    f.onerror = () => showSkeleton(false);
+  } else {
+    const f=document.createElement("iframe");
+    f.src=item.url;
+    f.onload=()=>showSkeleton(false);
+    f.onerror=()=>showSkeleton(false);
     viewer.appendChild(f);
   }
 
@@ -597,60 +414,63 @@ function restart(){
 }
 
 async function loadMedia(){
+  status.textContent="جاري تحميل الوسائط…";
   try{
     const r = await fetch(MEDIA_CSV_URL, {cache:"no-store"});
     const t = await r.text();
     const {header, rows} = parseCSV(t);
 
-    const typeI = col(header,"type");
-    const urlI  = col(header,"url");
-    const titleI= col(header,"title");
+    const typeI  = colAny(header, ["type","نوع"]);
+    const urlI   = colAny(header, ["url","link","رابط"]);
+    const titleI = colAny(header, ["title","caption","العنوان","وصف"]);
 
     MEDIA = rows.map(row=>{
-      let type = (row[typeI] || "iframe").trim().toLowerCase();
-      let url  = (row[urlI]  || "").trim();
-      let title= (row[titleI]|| "").trim();
+      let type = typeI !== -1 ? (row[typeI]||"iframe").trim().toLowerCase() : "iframe";
+      let url  = urlI  !== -1 ? (row[urlI] || "").trim() : "";
+      let title= titleI!== -1 ? (row[titleI]||"").trim() : "";
 
-      // Drive: حوله preview وخله iframe
+      // تصحيح نوع غير معروف
+      if(!["iframe","image","video"].includes(type)) type = "iframe";
+
+      // Drive preview
       if(/drive\.google\.com\/file\/d\//i.test(url)){
         url = toDrivePreview(url);
         type = "iframe";
       }
-
       return {type, url, title};
-    }).filter(x => x.url);
+    }).filter(x=>x.url);
 
     buildDots();
 
     if(MEDIA.length){
       go(0,false);
       restart();
-    }else{
-      viewer.innerHTML = `<div style="color:#6b7280;font-weight:900;text-align:center;">لا توجد وسائط في الشيت</div>`;
-      setCaption("—");
-      count.textContent = "0/0";
+    } else {
+      viewer.innerHTML = `<div style="text-align:center;color:#6b7280;font-weight:900;">لا توجد وسائط في الشيت</div>`;
+      setCaption("");
+      count.textContent="0/0";
       showSkeleton(false);
+      status.textContent="لم يتم العثور على بيانات في الشيت";
     }
   }catch(e){
-    viewer.innerHTML = `<div style="color:#ef4444;font-weight:900;text-align:center;">تعذر قراءة شيت الوسائط</div>`;
+    viewer.innerHTML = `<div style="text-align:center;color:#ef4444;font-weight:900;">تعذر قراءة شيت الوسائط</div>`;
     setCaption("تعذر التحميل");
-    count.textContent = "0/0";
+    count.textContent="0/0";
     showSkeleton(false);
+    status.textContent="تعذر التحميل (تحققي من Publish + الرابط)";
   }
 }
 
-/* أزرار */
-prevBtn.onclick = ()=> prev(true);
-nextBtn.onclick = ()=> next(true);
-toggleBtn.onclick = ()=> toggle();
+prevBtn.onclick=()=>prev(true);
+nextBtn.onclick=()=>next(true);
+toggleBtn.onclick=toggle;
 
-/* تشغيل */
 loadIcons();
 loadMedia();
 
-/* تحديث تلقائي كل دقيقة (اختياري) */
-setInterval(loadIcons, 60000);
+// تحديث تلقائي (اختياري)
 setInterval(loadMedia, 60000);
+setInterval(loadIcons, 60000);
 </script>
 </body>
 </html>
