@@ -58,11 +58,13 @@ body{
   box-shadow:var(--shadow);
   padding:22px 18px;
 }
+
 .topHeader h1{
   margin:0;
   font-size:30px;
   font-weight:1000;
 }
+
 .topHeader p{
   margin-top:8px;
   font-size:14px;
@@ -70,6 +72,7 @@ body{
   line-height:1.8;
   font-weight:700;
 }
+
 .topHeader hr{
   border:0;
   border-top:1px solid rgba(17,24,39,.08);
@@ -140,10 +143,13 @@ body{
   background:rgba(255,255,255,.9);
   text-decoration:none;
   color:var(--text);
-  transition:.15s ease;
   min-height:76px;
+  transition:transform .15s ease, box-shadow .15s ease;
 }
-.iconBtn:hover{ transform: translateY(-2px); }
+.iconBtn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 24px rgba(0,0,0,.12);
+}
 
 .iconTxt{ display:flex; flex-direction:column; gap:4px; min-width:0; }
 .iconTxt .t{ font-weight:1000; font-size:14px; line-height:1.2; }
@@ -157,6 +163,8 @@ body{
   place-items:center;
   color:#fff;
   font-size:20px;
+  flex:0 0 auto;
+  box-shadow: 0 10px 18px rgba(0,0,0,.12);
 }
 
 .g1{background:linear-gradient(135deg,var(--p1),var(--p5))}
@@ -182,29 +190,30 @@ body{
   overflow:hidden;
 }
 
-/* ✅ عنوان السلايدر */
+/* ===== عنوان السلايد + عدّاد ===== */
 .caption{
   position:absolute;
   top:12px;
   right:12px;
   left:12px;
   z-index:6;
-  pointer-events:none;
   display:flex;
   justify-content:space-between;
   gap:10px;
+  pointer-events:none;
 }
+
 .capPill{
   max-width:70%;
-  background: rgba(255,255,255,.86);
-  border:1px solid var(--border);
+  background: rgba(255,255,255,.88);
+  border:1px solid rgba(0,0,0,.10);
   padding:8px 12px;
   border-radius:999px;
   font-size:12px;
   font-weight:950;
+  white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  white-space:nowrap;
 
   opacity:0;
   transform: translateY(-8px);
@@ -213,13 +222,40 @@ body{
 .capPill.show{ opacity:1; transform: translateY(0); }
 
 .counter{
-  background: rgba(255,255,255,.86);
-  border:1px solid var(--border);
+  background: rgba(255,255,255,.88);
+  border:1px solid rgba(0,0,0,.10);
   padding:8px 10px;
   border-radius:999px;
   font-size:12px;
   color:var(--muted);
   white-space:nowrap;
+}
+
+/* ===== Skeleton ===== */
+.skeleton{
+  position:absolute;
+  inset:0;
+  padding:12px;
+  z-index:5;
+  display:none;
+}
+.stage.loading .skeleton{ display:block; }
+
+.skeletonBox{
+  width:100%;
+  height:100%;
+  border-radius:14px;
+  border:1px solid rgba(17,24,39,.08);
+  background: linear-gradient(90deg,
+    rgba(240,240,245,.75) 0%,
+    rgba(255,255,255,.95) 45%,
+    rgba(240,240,245,.75) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite linear;
+}
+@keyframes shimmer{
+  0%{ background-position: 200% 0; }
+  100%{ background-position: -200% 0; }
 }
 
 .viewer{
@@ -244,6 +280,7 @@ body{
   height:100%;
   object-fit:cover;
   border-radius:14px;
+  background:#fff;
 }
 
 .dots{
@@ -317,22 +354,26 @@ body{
         وتُفعل الحوار والتفكير الناقد، وتستثمر التغذية الراجعة والبيانات لتجويد المخرجات.
       </div>
 
-      <!-- ✅ ستُملأ تلقائياً -->
+      <!-- ✅ الأيقونات تُقرأ من الشيت -->
       <div class="icons" id="icons"></div>
     </div>
-
     <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
   </section>
 
   <!-- السلايدر -->
   <section class="card">
     <div class="mediaWrap">
-      <div class="stage">
+      <div class="stage" id="stage">
 
-        <!-- ✅ عنوان + عدّاد -->
+        <!-- ✅ عنوان الصورة من الشيت + عدّاد -->
         <div class="caption">
           <div class="capPill" id="capText">—</div>
           <div class="counter" id="countText">0/0</div>
+        </div>
+
+        <!-- ✅ Skeleton -->
+        <div class="skeleton">
+          <div class="skeletonBox"></div>
         </div>
 
         <div class="viewer" id="viewer"></div>
@@ -346,7 +387,6 @@ body{
         <button id="nextBtn">التالي</button>
       </div>
     </div>
-
     <div class="foot">© جميع الحقوق محفوظة — نوف خبتي</div>
   </section>
 
@@ -354,17 +394,17 @@ body{
 </div>
 
 <script>
-/* ✅ شيت الأيقونات (title,url,icon,desc) */
+/* ✅ شيت الروابط للأيقونات (title,url,icon,desc) */
 const LINKS_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQaN3UjaCfxytCPsU6tVG3q4Doq5MzAga4eN9DNn7CXHO2AgikUq0F3PggFNgMub2C2if6LoRuRDRoD/pub?output=csv";
 
-/* ✅ شيت الوسائط (type,url,title) */
+/* ✅ شيت الوسائط للسلايدر (type,url,title) */
 const MEDIA_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEHayG4LZPyitS9dWgRweARkU4gWhGc0vxUFjZbOan32ZG6B9zSYpAKd02bE2nkysvXoIC3EH-iN4O/pub?output=csv";
 
 const INTERVAL_MS = 7000;
 
-/* ===== CSV parser يدعم الاقتباس ===== */
+/* ===== CSV parser يدعم الاقتباس والفواصل ===== */
 function splitCSVLine(line){
   const res = [];
   let cur="", inQ=false;
@@ -402,7 +442,7 @@ function toDrivePreview(url){
   return `https://drive.google.com/file/d/${m[1]}/preview`;
 }
 
-/* ===== الأيقونات ===== */
+/* ===== تحميل أيقونات 2×2 من الشيت ===== */
 async function loadIcons(){
   const iconsEl = document.getElementById("icons");
   try{
@@ -444,25 +484,30 @@ async function loadIcons(){
     if(!items.length){
       iconsEl.innerHTML = `<div style="grid-column:1/-1;color:#6b7280;font-weight:900;text-align:center;">شيت الروابط فارغ</div>`;
     }
-
   }catch(e){
     iconsEl.innerHTML = `<div style="grid-column:1/-1;color:#ef4444;font-weight:900;text-align:center;">تعذر قراءة شيت الروابط</div>`;
   }
 }
 
-/* ===== السلايدر ===== */
+/* ===== السلايدر من الشيت (عنوان + Skeleton) ===== */
 let MEDIA = [];
 let i = 0;
 let play = true;
-let tmr = null;
+let timer = null;
 
-const v = document.getElementById("viewer");
-const d = document.getElementById("dots");
+const stage = document.getElementById("stage");
+const viewer = document.getElementById("viewer");
+const dots = document.getElementById("dots");
 const cap = document.getElementById("capText");
 const count = document.getElementById("countText");
+
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const toggleBtn = document.getElementById("toggleBtn");
+
+function showSkeleton(on){
+  stage.classList.toggle("loading", !!on);
+}
 
 function setCaption(text){
   cap.classList.remove("show");
@@ -471,44 +516,68 @@ function setCaption(text){
 }
 
 function buildDots(){
-  d.innerHTML = "";
+  dots.innerHTML = "";
   MEDIA.forEach((_,x)=>{
     const dot = document.createElement("div");
     dot.className = "dot";
-    dot.onclick = ()=> go(x,true);
-    d.appendChild(dot);
+    dot.onclick = ()=> go(x, true);
+    dots.appendChild(dot);
   });
 }
 
 function go(x, manual=false){
   if(!MEDIA.length) return;
+
   i = (x + MEDIA.length) % MEDIA.length;
 
-  document.querySelectorAll(".dot").forEach((e,j)=> e.classList.toggle("active", j===i));
+  document.querySelectorAll(".dot")
+    .forEach((e,j)=>e.classList.toggle("active", j===i));
 
   const item = MEDIA[i];
+
+  // ✅ عنوان من الشيت
   setCaption(item.title);
   count.textContent = `${i+1}/${MEDIA.length}`;
 
-  // عرض
-  v.innerHTML = "";
+  // ✅ Skeleton ON
+  showSkeleton(true);
+
+  // عرض العنصر
+  viewer.innerHTML = "";
+
   if(item.type === "image"){
     const img = document.createElement("img");
     img.src = item.url;
     img.alt = item.title || "image";
-    // لو فشل: حوّله iframe
-    img.onerror = () => { v.innerHTML = `<iframe src="${item.url}"></iframe>`; };
-    v.appendChild(img);
-  } else if(item.type === "video"){
-    const vid = document.createElement("video");
-    vid.src = item.url;
-    vid.autoplay = true;
-    vid.muted = true;
-    vid.loop = true;
-    vid.playsInline = true;
-    v.appendChild(vid);
-  } else {
-    v.innerHTML = `<iframe src="${item.url}"></iframe>`;
+    img.onload = () => showSkeleton(false);
+    img.onerror = () => {
+      // fallback: iframe
+      const f = document.createElement("iframe");
+      f.src = item.url;
+      f.onload = () => showSkeleton(false);
+      viewer.innerHTML = "";
+      viewer.appendChild(f);
+    };
+    viewer.appendChild(img);
+  }
+  else if(item.type === "video"){
+    const v = document.createElement("video");
+    v.src = item.url;
+    v.autoplay = true;
+    v.muted = true;
+    v.loop = true;
+    v.playsInline = true;
+    v.onloadeddata = () => showSkeleton(false);
+    v.onerror = () => showSkeleton(false);
+    viewer.appendChild(v);
+  }
+  else{
+    // iframe (Drive preview / YouTube embed)
+    const f = document.createElement("iframe");
+    f.src = item.url;
+    f.onload = () => showSkeleton(false);
+    f.onerror = () => showSkeleton(false);
+    viewer.appendChild(f);
   }
 
   if(manual) restart();
@@ -516,14 +585,15 @@ function go(x, manual=false){
 
 function next(manual=false){ go(i+1, manual); }
 function prev(manual=false){ go(i-1, manual); }
+
 function toggle(){
   play = !play;
   toggleBtn.textContent = play ? "إيقاف" : "تشغيل";
 }
 
 function restart(){
-  if(tmr) clearInterval(tmr);
-  tmr = setInterval(()=>{ if(play) next(false); }, INTERVAL_MS);
+  if(timer) clearInterval(timer);
+  timer = setInterval(()=>{ if(play) next(false); }, INTERVAL_MS);
 }
 
 async function loadMedia(){
@@ -539,32 +609,33 @@ async function loadMedia(){
     MEDIA = rows.map(row=>{
       let type = (row[typeI] || "iframe").trim().toLowerCase();
       let url  = (row[urlI]  || "").trim();
-      const title= (row[titleI]||"").trim();
+      let title= (row[titleI]|| "").trim();
 
-      // إذا درايف: خليه iframe + preview
+      // Drive: حوله preview وخله iframe
       if(/drive\.google\.com\/file\/d\//i.test(url)){
         url = toDrivePreview(url);
         type = "iframe";
       }
+
       return {type, url, title};
     }).filter(x => x.url);
 
     buildDots();
-    count.textContent = `0/${MEDIA.length || 0}`;
 
     if(MEDIA.length){
       go(0,false);
       restart();
-    } else {
-      v.innerHTML = `<div style="color:#6b7280;font-weight:900;text-align:center;">لا توجد وسائط في الشيت</div>`;
+    }else{
+      viewer.innerHTML = `<div style="color:#6b7280;font-weight:900;text-align:center;">لا توجد وسائط في الشيت</div>`;
       setCaption("—");
       count.textContent = "0/0";
+      showSkeleton(false);
     }
-
   }catch(e){
-    v.innerHTML = `<div style="color:#ef4444;font-weight:900;text-align:center;">تعذر قراءة شيت الوسائط</div>`;
+    viewer.innerHTML = `<div style="color:#ef4444;font-weight:900;text-align:center;">تعذر قراءة شيت الوسائط</div>`;
     setCaption("تعذر التحميل");
     count.textContent = "0/0";
+    showSkeleton(false);
   }
 }
 
@@ -577,7 +648,7 @@ toggleBtn.onclick = ()=> toggle();
 loadIcons();
 loadMedia();
 
-/* تحديث كل دقيقة (اختياري) */
+/* تحديث تلقائي كل دقيقة (اختياري) */
 setInterval(loadIcons, 60000);
 setInterval(loadMedia, 60000);
 </script>
